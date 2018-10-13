@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections;
-using static Task2.Sort;
-
 using NUnit.Framework;
+using static Task2.Sort;
 
 namespace Task2.NUnitTests
 {
@@ -73,50 +72,49 @@ namespace Task2.NUnitTests
             CollectionAssert.AreEqual(arrayToSort, expectedArray);
         }
     }
-}
 
-public class DataForTests
-{
-    public static IEnumerable ReversedSortedArray_SortedInDirectOrderArray
+    public class DataForTests
     {
-        get
+        public static IEnumerable ReversedSortedArray_SortedInDirectOrderArray
         {
-            yield return new TestCaseData(new int[] { 4, 3, 2, 1 }, new int[] { 1, 2, 3, 4 });
-            yield return new TestCaseData(new int[] { 3, 2, 1 }, new int[] { 1, 2, 3 });
-            yield return new TestCaseData(new int[] { 2, 1 }, new int[] { 1, 2 });
-            yield return new TestCaseData(new int[] { 1 }, new int[] { 1 });
-
-        }
-    }
-
-    public static IEnumerable SortedArray_SortedArray
-    {
-        get
-        {
-            yield return new TestCaseData(new int[] { 1, 2, 3, 4 }, new int[] { 1, 2, 3, 4 });
-            yield return new TestCaseData(new int[] { 1, 2, 3 }, new int[] { 1, 2, 3 });
-            yield return new TestCaseData(new int[] { 1, 2 }, new int[] { 1, 2 });
-            yield return new TestCaseData(new int[] { 1 }, new int[] { 1 });
-
-        }
-    }
-
-    public static IEnumerable LargeRandomNumberArray_SortedArray
-    {
-        get
-        {
-            Random rand = new Random(DateTime.Now.Millisecond);
-            int size = 1000000;
-            int[] arrayToSort = new int[size];
-            int[] expectedArray = new int[size];
-            for (int i = 0; i < size; i++)
+            get
             {
-                arrayToSort[i] = rand.Next(1000000);
-                expectedArray[i] = arrayToSort[i];
+                yield return new TestCaseData(new int[] { 4, 3, 2, 1 }, new int[] { 1, 2, 3, 4 });
+                yield return new TestCaseData(new int[] { 3, 2, 1 }, new int[] { 1, 2, 3 });
+                yield return new TestCaseData(new int[] { 2, 1 }, new int[] { 1, 2 });
+                yield return new TestCaseData(new int[] { 1 }, new int[] { 1 });
             }
-            Array.Sort(expectedArray);
+        }
 
-            yield return new TestCaseData(arrayToSort, expectedArray);
+        public static IEnumerable SortedArray_SortedArray
+        {
+            get
+            {
+                yield return new TestCaseData(new int[] { 1, 2, 3, 4 }, new int[] { 1, 2, 3, 4 });
+                yield return new TestCaseData(new int[] { 1, 2, 3 }, new int[] { 1, 2, 3 });
+                yield return new TestCaseData(new int[] { 1, 2 }, new int[] { 1, 2 });
+                yield return new TestCaseData(new int[] { 1 }, new int[] { 1 });
+            }
+        }
+
+        public static IEnumerable LargeRandomNumberArray_SortedArray
+        {
+            get
+            {
+                Random rand = new Random(DateTime.Now.Millisecond);
+                int size = 1000000;
+                int[] arrayToSort = new int[size];
+                int[] expectedArray = new int[size];
+                for (int i = 0; i < size; i++)
+                {
+                    arrayToSort[i] = rand.Next(1000000);
+                    expectedArray[i] = arrayToSort[i];
+                }
+
+                Array.Sort(expectedArray);
+
+                yield return new TestCaseData(arrayToSort, expectedArray);
+            }
         }
     }
 }

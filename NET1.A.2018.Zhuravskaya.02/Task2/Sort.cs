@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 
-/// <summary>
-/// This is Sort class.
-/// </summary>
 namespace Task2
 {
+    /// <summary>
+    /// This is Sort class.
+    /// </summary>
     public class Sort
     {
         /// <summary>
@@ -13,7 +13,7 @@ namespace Task2
         /// <param name="array">
         /// Array to sort.
         /// </param>
-        public static void MergeSort(int[] array)
+        public static void mergeSort(int[] array)
         {
             var list = new List<int>();
             for (int i = 0; i < array.Length; ++i)

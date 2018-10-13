@@ -89,6 +89,7 @@ namespace Task2.Tests
                 arrayToSort[i] = rand.Next(1000000);
                 expectedArray[i] = arrayToSort[i];
             }
+
             Array.Sort(expectedArray);
 
             QuickSort(arrayToSort);
@@ -108,6 +109,7 @@ namespace Task2.Tests
                 arrayToSort[i] = rand.Next(1000000);
                 expectedArray[i] = arrayToSort[i];
             }
+
             Array.Sort(expectedArray);
 
             MergeSort(arrayToSort);
