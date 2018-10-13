@@ -13,7 +13,7 @@ namespace Task2
         /// <param name="array">
         /// Array to sort.
         /// </param>
-        public static void mergeSort(int[] array)
+        public static void MergeSort(int[] array)
         {
             var list = new List<int>();
             for (int i = 0; i < array.Length; ++i)
