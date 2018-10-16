@@ -35,26 +35,12 @@ namespace Task1
                 throw new ArgumentException();
             }
 
-            int size = endIndex - startIndex + 1;
-            int pos = startIndex;
-            int i = 0;
-            while (i < size)
-            {
-                if ((num2 & 1) == 1)
-                {
-                    num1 = num1 | (1 << pos);
-                }
-                else
-                {
-                    num1 = num1 & ~(1 << pos);
-                }
+            int mask = ~1 << (endIndex - startIndex);
 
-                num2 >>= 1;
-                ++pos;
-                ++i;
-            }
+            int firstNumberWithZeroesInPositionToInsert = (~(~mask << startIndex)) & num1;
+            int secondNumberWithZeroesInPositionNotToInsert = (num2 & ~mask) << startIndex;
 
-            return num1;
+            return firstNumberWithZeroesInPositionToInsert | secondNumberWithZeroesInPositionNotToInsert;
         }
     }
 }
