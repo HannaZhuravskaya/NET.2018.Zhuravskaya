@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
 
 namespace Task2
 {
     /// <summary>
     /// This is Sort class.
     /// </summary>
-    public class Sort
+    public static class Sort
     {
         /// <summary>
         /// Method of merge sort.
@@ -13,15 +13,17 @@ namespace Task2
         /// <param name="array">
         /// Array to sort.
         /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if array is null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown if array has no elements.
+        /// </exception>
         public static void MergeSort(int[] array)
         {
-            var list = new List<int>();
-            for (int i = 0; i < array.Length; ++i)
-            {
-                list.Add(array[i]);
-            }
+            CheckSortingConditions(array);
 
-            var sortedInput = MergeSortRecursive(list);
+            var sortedInput = MergeSortRecursive(array);
 
             for (int i = 0; i < array.Length; ++i)
             {
@@ -35,35 +37,34 @@ namespace Task2
         /// <param name="array">
         /// Array to sort.
         /// </param>
+        /// /// <exception cref="ArgumentNullException">
+        /// Thrown if array is null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown if array has no elements.
+        /// </exception>
         public static void QuickSort(int[] array)
         {
+            CheckSortingConditions(array);
+
             QuickSortRecursive(array, 0, array.Length - 1);
         }
 
-        private static List<int> MergeSortRecursive(List<int> input)
+        private static int[] MergeSortRecursive(int[] input)
         {
-            if (input.Count <= 1)
+            if (input.Length == 1)
             {
                 return input;
             }
 
-            List<int> left = new List<int>();
-            List<int> right = new List<int>();
-            List<int> result = new List<int>();
+            int middle = input.Length / 2;
 
-            int middle = input.Count / 2;
+            var left = new int[middle];
+            var right = new int[input.Length - middle];
+            var result = new int[input.Length];
 
-            for (int i = 0; i < input.Count; ++i)
-            {
-                if (i < middle)
-                {
-                    left.Add(input[i]);
-                }
-                else
-                {
-                    right.Add(input[i]);
-                }
-            }
+            Array.Copy(input, 0, left, 0, middle);
+            Array.Copy(input, middle, right, 0, input.Length - middle);
 
             left = MergeSortRecursive(left);
             right = MergeSortRecursive(right);
@@ -72,34 +73,39 @@ namespace Task2
             return result;
         }
 
-        private static List<int> Merge(List<int> left, List<int> right)
+        private static int[] Merge(int[] left, int[] right)
         {
-            var result = new List<int>();
-            int leftIndex = 0, rightIndex = 0;
-            while (leftIndex < left.Count && rightIndex < right.Count)
+            var result = new int[left.Length + right.Length];
+
+            int leftIndex = 0, rightIndex = 0, resultIndex = 0;
+            while (leftIndex < left.Length && rightIndex < right.Length)
             {
                 if (left[leftIndex].CompareTo(right[rightIndex]) < 0)
                 {
-                    result.Add(left[leftIndex]);
+                    result[resultIndex] = left[leftIndex];
                     leftIndex++;
                 }
                 else
                 {
-                    result.Add(right[rightIndex]);
+                    result[resultIndex] = right[rightIndex];
                     rightIndex++;
                 }
+
+                resultIndex++;
             }
 
-            while (leftIndex < left.Count)
+            while (leftIndex < left.Length)
             {
-                result.Add(left[leftIndex]);
+                result[resultIndex] = left[leftIndex];
                 leftIndex++;
+                resultIndex++;
             }
 
-            while (rightIndex < right.Count)
+            while (rightIndex < right.Length)
             {
-                result.Add(right[rightIndex]);
+                result[resultIndex] = right[rightIndex];
                 rightIndex++;
+                resultIndex++;
             }
 
             return result;
@@ -112,9 +118,7 @@ namespace Task2
             {
                 if (array[i] <= array[end])
                 {
-                    int temp = array[marker];
-                    array[marker] = array[i];
-                    array[i] = temp;
+                    Swap(ref array[marker], ref array[i]);
                     marker += 1;
                 }
             }
@@ -132,6 +136,26 @@ namespace Task2
             int pivot = QuickSortPartition(array, start, end);
             QuickSortRecursive(array, start, pivot - 1);
             QuickSortRecursive(array, pivot + 1, end);
+        }
+
+        private static void Swap(ref int a, ref int b)
+        {
+            int temp = a;
+            a = b;
+            b = temp;
+        }
+
+        private static void CheckSortingConditions(int[] array)
+        {
+            if (array == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (array.Length == 0)
+            {
+                throw new ArgumentException();
+            }
         }
     }
 }
