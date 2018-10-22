@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<TestCases>
+  <TestCase sourceNumber="1" degree = "5" accuracy = "0,0001" expectedResult = "1"/>
+  <TestCase sourceNumber="8" degree = "3" accuracy = "0,0001" expectedResult = "2"/>
+  <TestCase sourceNumber="0,001" degree = "3" accuracy = "0,0001" expectedResult = "0,1"/>
+  <TestCase sourceNumber="0,04100625" degree = "4" accuracy = "0,0001" expectedResult = "0,45"/>
+  <TestCase sourceNumber="0,0279936" degree = "7" accuracy = "0,0001" expectedResult = "0,6"/>
+  <TestCase sourceNumber="0,0081" degree = "4" accuracy = "0,1" expectedResult = "0,3"/>
+  <TestCase sourceNumber="-0,008" degree = "3" accuracy = "0,1" expectedResult = "-0,2"/>
+  <TestCase sourceNumber="0,004241979" degree = "9" accuracy = "0,00000001" expectedResult = "0,545"/>
+</TestCases>

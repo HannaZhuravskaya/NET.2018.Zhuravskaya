@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<TestCases>
+  <TestCase sourceNumber="12" expectedResult="21"/>
+  <TestCase sourceNumber="21" expectedResult="-1"/>
+  <TestCase sourceNumber="513" expectedResult="531"/>
+  <TestCase sourceNumber="2017" expectedResult="2071"/>
+  <TestCase sourceNumber="414" expectedResult="441"/>
+  <TestCase sourceNumber="144" expectedResult="414"/>
+  <TestCase sourceNumber="1234321" expectedResult="1241233"/>
+  <TestCase sourceNumber="1234126" expectedResult="1234162"/>
+  <TestCase sourceNumber="3456432" expectedResult="3462345"/>
+  <TestCase sourceNumber="10" expectedResult="-1"/>
+  <TestCase sourceNumber="20" expectedResult="-1"/>
+  <TestCase sourceNumber="8" expectedResult="-1"/>
+</TestCases>
