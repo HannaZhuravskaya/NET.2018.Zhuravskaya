@@ -44,5 +44,11 @@
     <Compile Include="Transform.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Task2\Task2.csproj">
+      <Project>{d8b72651-98f2-4b89-a5d7-55bfaf084777}</Project>
+      <Name>Task2</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

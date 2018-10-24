@@ -1,4 +1,5 @@
 ﻿using System;
+using Task2;
 
 namespace Task1
 {
@@ -24,6 +25,28 @@ namespace Task1
             for (int i = 0; i < numbers.Length; ++i)
             {
                 result[i] = TransformToWord(numbers[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Method takes an array of real numbers and converts it into an array of IEEE 754 format strings.
+        /// </summary>
+        /// <param name="numbers">Array of real numbers.</param>
+        /// <returns>Array of IEEE 754 format strings.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// Array should not be NULL.
+        /// </exception>
+        public static string[] TransformToIEEE754Strings(double[] numbers)
+        {
+            CheckTransformToWordsMethodConditions(numbers);
+
+            string[] result = new string[numbers.Length];
+
+            for (int i = 0; i < numbers.Length; ++i)
+            {
+                result[i] = numbers[i].ConvertToIEEE754String();
             }
 
             return result;
