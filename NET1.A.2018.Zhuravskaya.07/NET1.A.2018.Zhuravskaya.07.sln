@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2046
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JaggedSort", "JaggedSort\JaggedSort.csproj", "{BD0D8A41-AD00-453C-BAE2-CA0D84FBEC53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JaggedSort.Tests", "JaggedSort.Tests\JaggedSort.Tests.csproj", "{4996F411-6A77-4021-928A-6F1EBB382BEF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BD0D8A41-AD00-453C-BAE2-CA0D84FBEC53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD0D8A41-AD00-453C-BAE2-CA0D84FBEC53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD0D8A41-AD00-453C-BAE2-CA0D84FBEC53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD0D8A41-AD00-453C-BAE2-CA0D84FBEC53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4996F411-6A77-4021-928A-6F1EBB382BEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4996F411-6A77-4021-928A-6F1EBB382BEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4996F411-6A77-4021-928A-6F1EBB382BEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4996F411-6A77-4021-928A-6F1EBB382BEF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {86D94640-F080-4815-AFEB-651027239A4B}
+	EndGlobalSection
+EndGlobal
