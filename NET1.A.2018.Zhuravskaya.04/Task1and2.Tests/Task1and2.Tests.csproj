@@ -5,12 +5,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{365A8AAC-8AAB-4B06-8615-083AFFE05517}</ProjectGuid>
+    <ProjectGuid>{B93084CA-9FC0-430F-989E-3B50CD0D9B8A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Task2.Tests</RootNamespace>
-    <AssemblyName>Task2.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <RootNamespace>Task1and2.Tests</RootNamespace>
+    <AssemblyName>Task1and2.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
@@ -47,13 +47,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DoubleExtensionTests.cs" />
+    <Compile Include="ArrayExtensionTests.cs" />
+    <Compile Include="DoubleToIEEE754Transformer.cs" />
+    <Compile Include="DoubleToIEEE754TransformerTests.cs" />
+    <Compile Include="DoubleToWordsTransformer.cs" />
+    <Compile Include="DoubleToWordsTransformerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Task2\Task2.csproj">
-      <Project>{d8b72651-98f2-4b89-a5d7-55bfaf084777}</Project>
-      <Name>Task2</Name>
+    <ProjectReference Include="..\Task1and2\Task1and2.csproj">
+      <Project>{05083c0e-1229-4edd-bff7-3d551dd3b380}</Project>
+      <Name>Task1and2</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

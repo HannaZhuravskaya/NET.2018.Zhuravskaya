@@ -1,15 +1,15 @@
-﻿using System.Runtime.InteropServices;
-using static System.String;
+﻿using System;
+using System.Runtime.InteropServices;
 
-namespace Task2
+namespace Task1and2.Tests
 {
     /// <summary>
-    /// DoubleExtension class contains extension methods for double.
+    /// The implementation of ITransformer interface. Transform double to IEEE 754 format string.
     /// </summary>
-    public static class DoubleExtension
+    public class DoubleToIEEE754Transformer : ITransformer
     {
         /// <summary>
-        /// Extension method converts a double to IEEE 754 format.
+        /// Method converts a double to IEEE 754 format.
         /// </summary>
         /// <param name="number">
         /// Source number.
@@ -17,7 +17,7 @@ namespace Task2
         /// <returns>
         /// Source number in IEEE 754 format.
         /// </returns>
-        public static string ConvertToIEEE754String(this double number)
+        public string Transform(double number)
         {
             var numberOfBytes = 64;
             var doubleToLong = new DoubleToLong() { PlaceForDouble = number };
@@ -38,17 +38,18 @@ namespace Task2
 
                 numberToLong >>= 1;
             }
-            return Join("", doubleToIEEE754Format);
+
+            return string.Join(string.Empty, doubleToIEEE754Format);
         }
 
         [StructLayout(LayoutKind.Explicit)]
         private struct DoubleToLong
         {
             [FieldOffset(0)]
-            public double PlaceForDouble;
+            public readonly long PlaceForLong;
 
             [FieldOffset(0)]
-            public readonly long PlaceForLong;
+            public double PlaceForDouble;
         }
     }
 }

@@ -1,9 +1,14 @@
-﻿using NUnit.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using NUnit.Framework;
 
-namespace Task2.Tests
+namespace Task1and2.Tests
 {
     [TestFixture]
-    public class DoubleExtensionTests
+    public class DoubleToIEEE754TransformerTests
     {
         [TestCase(-255.255, ExpectedResult = "1100000001101111111010000010100011110101110000101000111101011100")]
         [TestCase(255.255, ExpectedResult = "0100000001101111111010000010100011110101110000101000111101011100")]
@@ -16,9 +21,9 @@ namespace Task2.Tests
         [TestCase(double.PositiveInfinity, ExpectedResult = "0111111111110000000000000000000000000000000000000000000000000000")]
         [TestCase(-0.0, ExpectedResult = "1000000000000000000000000000000000000000000000000000000000000000")]
         [TestCase(0.0, ExpectedResult = "0000000000000000000000000000000000000000000000000000000000000000")]
-        public string ConvertToIEEE754String_FloatNumber_NumberInIEEE754Format(double number)
+        public string Transform_RealNumber_DoubleIEEE754Format(double number)
         {
-            return number.ConvertToIEEE754String();
+            return new DoubleToIEEE754Transformer().Transform(number);
         }
     }
 }
