@@ -4,10 +4,12 @@ using System.Diagnostics;
 namespace GreatestCommonDivisor
 {
     /// <summary>
-    /// Сlass contains methods for calculating the greatest common divisor.
+    /// Class contains methods for calculating the greatest common divisor.
     /// </summary>
     public static class GreatestCommonDivisor
     {
+        private delegate int GreatestCommonDivisorOfTwoNumbers(int firstNumber, int secondNumber);
+
         /// <summary>
         /// Calculates the greatest common divisor of two numbers by the Euclidean method.
         /// </summary>
@@ -49,15 +51,8 @@ namespace GreatestCommonDivisor
         /// <returns>The greatest common divisor of two numbers.</returns>
         public static int EuclideanAlgorithm(out long ticksSpentOnCalculations, int firstNumber, int secondNumber)
         {
-            var stopWatch = new Stopwatch();
-            stopWatch.Start();
-
-            var greatestCommonDivisor = EuclideanAlgorithm(firstNumber, secondNumber);
-
-            stopWatch.Stop();
-            ticksSpentOnCalculations = stopWatch.Elapsed.Ticks;
-
-            return greatestCommonDivisor;
+            return GreatestCommonDivisorAlgorithm(out ticksSpentOnCalculations, EuclideanAlgorithm, firstNumber,
+                secondNumber);
         }
 
         /// <summary>
@@ -69,14 +64,9 @@ namespace GreatestCommonDivisor
         /// <returns>The greatest common divisor of three numbers.</returns>
         public static int EuclideanAlgorithm(int firstNumber, int secondNumber, int thirdNumber)
         {
-            int firstSecondGreatestCommonDivisor = EuclideanAlgorithm(firstNumber, secondNumber);
-            if (firstSecondGreatestCommonDivisor == -1)
-            {
-                firstSecondGreatestCommonDivisor = 0;
-            }
-
-            return EuclideanAlgorithm(firstSecondGreatestCommonDivisor, thirdNumber);
+            return GreatestCommonDivisorAlgorithm(EuclideanAlgorithm, firstNumber, secondNumber, thirdNumber);
         }
+
 
         /// <summary>
         /// Calculates the greatest common divisor of three numbers by the Euclidean method.
@@ -92,15 +82,8 @@ namespace GreatestCommonDivisor
             int secondNumber,
             int thirdNumber)
         {
-            var stopWatch = new Stopwatch();
-            stopWatch.Start();
-
-            var greatestCommonDivisor = EuclideanAlgorithm(firstNumber, secondNumber, thirdNumber);
-
-            stopWatch.Stop();
-            ticksSpentOnCalculations = stopWatch.Elapsed.Ticks;
-
-            return greatestCommonDivisor;
+            return GreatestCommonDivisorAlgorithm(out ticksSpentOnCalculations,
+                EuclideanAlgorithm, firstNumber, secondNumber, thirdNumber);
         }
 
         /// <summary>
@@ -112,26 +95,7 @@ namespace GreatestCommonDivisor
         /// <returns>The greatest common divisor of numbers.</returns>
         public static int EuclideanAlgorithm(int firstNumber, int secondNumber, params int[] numbers)
         {
-            int firstSecondGreatestCommonDivisor = EuclideanAlgorithm(firstNumber, secondNumber);
-
-            if (firstSecondGreatestCommonDivisor == -1)
-            {
-                firstSecondGreatestCommonDivisor = 0;
-            }
-
-            numbers[0] = EuclideanAlgorithm(firstSecondGreatestCommonDivisor, numbers[0]);
-            
-            for (int i = 1; i < numbers.Length; ++i)
-            {
-                if (numbers[i - 1] == -1)
-                {
-                    numbers[i - 1] = 0;
-                }
-
-                numbers[i] = EuclideanAlgorithm(numbers[i - 1], numbers[i]);
-            }
-
-            return numbers[numbers.Length - 1];
+            return GreatestCommonDivisorAlgorithm(EuclideanAlgorithm, firstNumber, secondNumber, numbers);
         }
 
         /// <summary>
@@ -142,17 +106,11 @@ namespace GreatestCommonDivisor
         /// <param name="secondNumber">Second number.</param>
         /// <param name="numbers">Accepts any number of input parameters.</param>
         /// <returns>The greatest common divisor of numbers.</returns>
-        public static int EuclideanAlgorithm(out long ticksSpentOnCalculations, int firstNumber, int secondNumber, params int[] numbers)
+        public static int EuclideanAlgorithm(out long ticksSpentOnCalculations, int firstNumber, int secondNumber,
+            params int[] numbers)
         {
-            var stopWatch = new Stopwatch();
-            stopWatch.Start();
-
-            var greatestCommonDivisor = EuclideanAlgorithm(firstNumber, secondNumber, numbers);
-
-            stopWatch.Stop();
-            ticksSpentOnCalculations = stopWatch.Elapsed.Ticks;
-
-            return greatestCommonDivisor;
+            return GreatestCommonDivisorAlgorithm(out ticksSpentOnCalculations, EuclideanAlgorithm, firstNumber,
+                secondNumber, numbers);
         }
 
         /// <summary>
@@ -171,14 +129,9 @@ namespace GreatestCommonDivisor
                 return -1;
             }
 
-            if (firstNumber == 0)
+            if (firstNumber == 0 || secondNumber == 0)
             {
-                return secondNumber;
-            }
-
-            if (secondNumber == 0)
-            {
-                return firstNumber;
+                return Math.Max(firstNumber, secondNumber);
             }
 
             int shift;
@@ -206,8 +159,7 @@ namespace GreatestCommonDivisor
                 }
 
                 secondNumber = secondNumber - firstNumber;
-            }
-            while (secondNumber != 0);
+            } while (secondNumber != 0);
 
             return firstNumber << shift;
         }
@@ -221,15 +173,8 @@ namespace GreatestCommonDivisor
         /// <returns>The greatest common divisor of two numbers.</returns>
         public static int BinaryAlgorithm(out long ticksSpentOnCalculations, int firstNumber, int secondNumber)
         {
-            var stopWatch = new Stopwatch();
-            stopWatch.Start();
-
-            var greatestCommonDivisor = BinaryAlgorithm(firstNumber, secondNumber);
-
-            stopWatch.Stop();
-            ticksSpentOnCalculations = stopWatch.Elapsed.Ticks;
-
-            return greatestCommonDivisor;
+            return GreatestCommonDivisorAlgorithm(out ticksSpentOnCalculations, BinaryAlgorithm, firstNumber,
+                secondNumber);
         }
 
         /// <summary>
@@ -241,13 +186,7 @@ namespace GreatestCommonDivisor
         /// <returns>The greatest common divisor of three numbers.</returns>
         public static int BinaryAlgorithm(int firstNumber, int secondNumber, int thirdNumber)
         {
-            var firstSecondGreatestCommonDivisor = BinaryAlgorithm(firstNumber, secondNumber);
-            if (firstSecondGreatestCommonDivisor == -1)
-            {
-                firstSecondGreatestCommonDivisor = 0;
-            }
-
-            return BinaryAlgorithm(firstSecondGreatestCommonDivisor, thirdNumber);
+            return GreatestCommonDivisorAlgorithm(BinaryAlgorithm, firstNumber, secondNumber, thirdNumber);
         }
 
         /// <summary>
@@ -264,15 +203,8 @@ namespace GreatestCommonDivisor
             int secondNumber,
             int thirdNumber)
         {
-            var stopWatch = new Stopwatch();
-            stopWatch.Start();
-
-            var greatestCommonDivisor = BinaryAlgorithm(firstNumber, secondNumber, thirdNumber);
-
-            stopWatch.Stop();
-            ticksSpentOnCalculations = stopWatch.Elapsed.Ticks;
-
-            return greatestCommonDivisor;
+            return GreatestCommonDivisorAlgorithm(out ticksSpentOnCalculations, BinaryAlgorithm, firstNumber,
+                secondNumber, thirdNumber);
         }
 
         /// <summary>
@@ -284,26 +216,7 @@ namespace GreatestCommonDivisor
         /// <returns>The greatest common divisor of numbers.</returns>
         public static int BinaryAlgorithm(int firstNumber, int secondNumber, params int[] numbers)
         {
-            int firstSecondGreatestCommonDivisor = BinaryAlgorithm(firstNumber, secondNumber);
-
-            if (firstSecondGreatestCommonDivisor == -1)
-            {
-                firstSecondGreatestCommonDivisor = 0;
-            }
-
-            numbers[0] = BinaryAlgorithm(firstSecondGreatestCommonDivisor, numbers[0]);
-
-            for (int i = 1; i < numbers.Length; ++i)
-            {
-                if (numbers[i - 1] == -1)
-                {
-                    numbers[i - 1] = 0;
-                }
-
-                numbers[i] = BinaryAlgorithm(numbers[i - 1], numbers[i]);
-            }
-
-            return numbers[numbers.Length - 1];
+            return GreatestCommonDivisorAlgorithm(BinaryAlgorithm, firstNumber, secondNumber, numbers);
         }
 
         /// <summary>
@@ -314,12 +227,45 @@ namespace GreatestCommonDivisor
         /// <param name="secondNumber">Second number.</param>
         /// <param name="numbers">Accepts any number of input parameters.</param>
         /// <returns>The greatest common divisor of numbers.</returns>
-        public static int BinaryAlgorithm(out long ticksSpentOnCalculations, int firstNumber, int secondNumber, params int[] numbers)
+        public static int BinaryAlgorithm(out long ticksSpentOnCalculations, int firstNumber, int secondNumber,
+            params int[] numbers)
+        {
+            return GreatestCommonDivisorAlgorithm(out ticksSpentOnCalculations, BinaryAlgorithm, firstNumber,
+                secondNumber, numbers);
+        }
+
+        private static int GreatestCommonDivisorAlgorithm(GreatestCommonDivisorOfTwoNumbers gcd, int firstNumber,
+            int secondNumber, params int[] numbers)
+        {
+            var firstSecondDivisor = gcd.Invoke(firstNumber, secondNumber);
+
+            if (numbers.Length == 0)
+            {
+                return firstSecondDivisor;
+            }
+
+            numbers[0] = gcd.Invoke(firstSecondDivisor, numbers[0]);
+
+            for (int i = 1; i < numbers.Length; ++i)
+            {
+                if (numbers[i - 1] == -1)
+                {
+                    numbers[i - 1] = 0;
+                }
+
+                numbers[i] = gcd.Invoke(numbers[i - 1], numbers[i]);
+            }
+
+            return numbers[numbers.Length - 1];
+        }
+
+        private static int GreatestCommonDivisorAlgorithm(out long ticksSpentOnCalculations,
+            GreatestCommonDivisorOfTwoNumbers gcd, int firstNumber, int secondNumber, params int[] numbers)
         {
             var stopWatch = new Stopwatch();
             stopWatch.Start();
 
-            var greatestCommonDivisor = BinaryAlgorithm(firstNumber, secondNumber, numbers);
+            var greatestCommonDivisor = GreatestCommonDivisorAlgorithm(gcd, firstNumber, secondNumber, numbers);
 
             stopWatch.Stop();
             ticksSpentOnCalculations = stopWatch.Elapsed.Ticks;
