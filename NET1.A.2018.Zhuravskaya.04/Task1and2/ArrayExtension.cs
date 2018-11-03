@@ -3,6 +3,17 @@
 namespace Task1and2
 {
     /// <summary>
+    /// Delegate performing methods for converting from a real number to a string.
+    /// </summary>
+    /// <param name="number">
+    /// Real number.
+    /// </param>
+    /// <returns>
+    /// Real number in string format.
+    /// </returns>
+    public delegate string TransformerDelegate(double number);
+
+    /// <summary>
     /// Class contains extensions method for array.
     /// </summary>
     public static class ArrayExtension
@@ -25,6 +36,19 @@ namespace Task1and2
             for (int i = 0; i < array.Length; ++i)
             {
                 stringArray[i] = transformer.Transform(array[i]);
+            }
+
+            return stringArray;
+        }
+
+        public static string[] TransformTo(this double[] array, TransformerDelegate transformer)
+        {
+            TransformToInputValidation(array);
+
+            var stringArray = new string[array.Length];
+            for (int i = 0; i < array.Length; ++i)
+            {
+                stringArray[i] = transformer.Invoke(array[i]);
             }
 
             return stringArray;

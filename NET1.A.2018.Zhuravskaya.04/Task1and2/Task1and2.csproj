@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="ArrayExtension.cs" />
     <Compile Include="ITransformer.cs" />
+    <Compile Include="ITransformerImplementations\DoubleToIEEE754Transformer.cs" />
+    <Compile Include="ITransformerImplementations\DoubleToWordsTransformer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
