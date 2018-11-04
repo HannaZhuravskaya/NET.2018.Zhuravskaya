@@ -6,9 +6,16 @@ namespace Task1
     /// <summary>
     /// Сlass contains a polynomial of one variable.
     /// </summary>
-    public class Polynomial
+    public sealed class Polynomial
     {
         private double[] _coefficients;
+
+        private static double _epsilon;
+
+        static Polynomial()
+        {
+            _epsilon = double.Parse(System.Configuration.ConfigurationManager.AppSettings["epsilon"]);
+        }
 
         /// <summary>
         /// Initializes a new instance of the Polynomial class for the value indicated by an array of polynomial coefficients.
@@ -22,11 +29,13 @@ namespace Task1
         /// <exception cref="ArgumentException">
         /// polynomialCoefficients length is zero.
         /// </exception>
-        public Polynomial(double[] polynomialCoefficients)
+        public Polynomial(params double[] polynomialCoefficients)
         {
             Coefficients = polynomialCoefficients;
             Degree = Coefficients.Length;
         }
+
+        private int degree;
 
         /// <summary>
         /// Gets the degree of polynomial in the current Polynomial object.
@@ -34,7 +43,7 @@ namespace Task1
         /// <returns>
         /// The degree of polynomial in the current Polynomial object.
         /// </returns>
-        public int Degree { get; }
+        public int Degree => degree - 1;
 
         /// <summary>
         /// Gets the array of polynomial coefficients in the current Polynomial object.
@@ -233,7 +242,7 @@ namespace Task1
         {
             return !(pol1 == pol2);
         }
-        
+
         /// <summary>
         /// Returns the hash code for this polynomial.
         /// </summary>
