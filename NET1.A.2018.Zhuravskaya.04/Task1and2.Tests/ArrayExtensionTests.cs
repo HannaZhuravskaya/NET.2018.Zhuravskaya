@@ -15,7 +15,7 @@ namespace Task1and2.Tests
         [TestCaseSource(typeof(DataSourse), nameof(DataSourse.ArrayIsNullWithDelegates))]
         public void TransformDelegate_ArrayIsNull_ExpectedArgumentNullException(
             double[] array,
-            TransformerDelegate transformer)
+            Func<double, string> transformer)
             => Assert.Throws<ArgumentNullException>(() =>
                 array.TransformTo(transformer));
 
@@ -25,7 +25,7 @@ namespace Task1and2.Tests
                 array.TransformTo(transformer));
 
         [TestCaseSource(typeof(DataSourse), nameof(DataSourse.ArrayLengthIsZeroWithDelegates))]
-        public void TransformDelegate_ArrayLengthIsNull_ExpectedArgumentException(double[] array, TransformerDelegate transformer)
+        public void TransformDelegate_ArrayLengthIsNull_ExpectedArgumentException(double[] array, Func<double, string> transformer)
             => Assert.Throws<ArgumentException>(() =>
                 array.TransformTo(transformer));
 
@@ -41,7 +41,7 @@ namespace Task1and2.Tests
         [TestCaseSource(typeof(DataSourse), nameof(DataSourse.NotEmptyArrayWithDelegates))]
         public void TransformDelegate_NotEmptyArray_StringArray(
             double[] array,
-            TransformerDelegate transformer,
+            Func<double, string> transformer,
             string[] expectedResult)
         {
             Assert.IsTrue(IsTheSameArrays(array.TransformTo(transformer), expectedResult));
@@ -151,9 +151,9 @@ namespace Task1and2.Tests
                 double[] a = {3, 4};
 
                 yield return new TestCaseData(null,
-                    new TransformerDelegate(new DoubleToIEEE754Transformer().Transform));
+                    new Func<double, string>(new DoubleToIEEE754Transformer().Transform));
                 yield return new TestCaseData(null,
-                    new TransformerDelegate(new DoubleToWordsTransformer().Transform));
+                    new Func<double, string>(new DoubleToWordsTransformer().Transform));
             }
         }
 
@@ -162,9 +162,9 @@ namespace Task1and2.Tests
             get
             {
                 yield return new TestCaseData(new double[0],
-                    new TransformerDelegate(new DoubleToIEEE754Transformer().Transform));
+                    new Func<double, string>(new DoubleToIEEE754Transformer().Transform));
                 yield return new TestCaseData(new double[0],
-                    new TransformerDelegate(new DoubleToWordsTransformer().Transform));
+                    new Func<double, string>(new DoubleToWordsTransformer().Transform));
             }
         }
 
@@ -172,8 +172,8 @@ namespace Task1and2.Tests
         {
             get
             {
-                TransformerDelegate ieee754Transformer = new DoubleToIEEE754Transformer().Transform;
-                TransformerDelegate wordsTransformer = new DoubleToWordsTransformer().Transform;
+                Func<double, string> ieee754Transformer = new DoubleToIEEE754Transformer().Transform;
+                Func<double, string> wordsTransformer = new DoubleToWordsTransformer().Transform;
                 yield return new TestCaseData(
                     new[]
                     {
