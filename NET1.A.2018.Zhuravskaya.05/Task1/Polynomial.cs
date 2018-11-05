@@ -6,15 +6,22 @@ namespace Task1
     /// <summary>
     /// Сlass contains a polynomial of one variable.
     /// </summary>
-    public sealed class Polynomial
+    public sealed class Polynomial : ICloneable, IEquatable<Polynomial>
     {
-        private double[] _coefficients;
+        private static readonly double Epsilon;
 
-        private static double _epsilon;
+        private double[] _coefficients;
 
         static Polynomial()
         {
-            _epsilon = double.Parse(System.Configuration.ConfigurationManager.AppSettings["epsilon"]);
+            try
+            {
+                Epsilon = double.Parse(System.Configuration.ConfigurationManager.AppSettings["epsilon"]);
+            }
+            catch (Exception)
+            {
+                Epsilon = 0.000001;
+            }
         }
 
         /// <summary>
@@ -32,10 +39,7 @@ namespace Task1
         public Polynomial(params double[] polynomialCoefficients)
         {
             Coefficients = polynomialCoefficients;
-            Degree = Coefficients.Length;
         }
-
-        private int degree;
 
         /// <summary>
         /// Gets the degree of polynomial in the current Polynomial object.
@@ -43,7 +47,26 @@ namespace Task1
         /// <returns>
         /// The degree of polynomial in the current Polynomial object.
         /// </returns>
-        public int Degree => degree - 1;
+        public int Degree
+        {
+            get
+            {
+                if (_coefficients.Length == 1)
+                {
+                    return 0;
+                }
+
+                for (int i = _coefficients.Length - 1; i >= 0; i--)
+                {
+                    if (Math.Abs(_coefficients[i]) > Epsilon)
+                    {
+                        return i;
+                    }
+                }
+
+                return 0;
+            }
+        }
 
         /// <summary>
         /// Gets the array of polynomial coefficients in the current Polynomial object.
@@ -93,7 +116,7 @@ namespace Task1
         {
             get
             {
-                if (degree >= Degree || degree < 0)
+                if (degree > Degree || degree < 0)
                 {
                     throw new ArgumentOutOfRangeException();
                 }
@@ -213,17 +236,17 @@ namespace Task1
         /// </returns>
         public static bool operator ==(Polynomial pol1, Polynomial pol2)
         {
-            if (pol1 != null)
-            {
-                return pol1.Equals(pol2);
-            }
-
-            if (pol2 != null)
+            if (pol1 is null || pol2 is null)
             {
                 return false;
             }
 
-            return true;
+            if (ReferenceEquals(pol1, pol2))
+            {
+                return true;
+            }
+
+            return pol1.Equals(pol2);
         }
 
         /// <summary>
@@ -251,14 +274,20 @@ namespace Task1
         /// </returns>
         public override int GetHashCode()
         {
-            int result = 0;
+            return Degree.GetHashCode();
+        }
 
-            for (int i = 0; i < Degree; ++i)
-            {
-                result = result * 23 + Coefficients[i].GetHashCode();
-            }
-
-            return result;
+        /// <summary>
+        /// Returns polynomial object clone.
+        /// </summary>
+        /// <returns>
+        /// Clone of polynomial object.
+        /// </returns>
+        public object Clone()
+        {
+            var array = new double[_coefficients.Length];
+            _coefficients.CopyTo(array, 0);
+            return new Polynomial(array);
         }
 
         /// <summary>
@@ -272,21 +301,53 @@ namespace Task1
         /// </returns>
         public override bool Equals(object o)
         {
-            Polynomial pol = o as Polynomial;
-
-            if (pol == null)
+            if (o is null)
             {
                 return false;
             }
 
-            if (pol.Degree != Degree)
+            if (ReferenceEquals(this, o))
+            {
+                return true;
+            }
+
+            if (o.GetType() != this.GetType())
             {
                 return false;
             }
 
-            for (var i = 0; i < pol.Degree; ++i)
+            return this.Equals((Polynomial)o);
+        }
+
+        /// <summary>
+        /// Determines whether this instance and another specified Polynomial object have the same structure.
+        /// </summary>
+        /// <param name="o">
+        /// The polynomial to compare to this instance.
+        /// </param>
+        /// <returns>
+        /// true if the structure of the parameter is the same as the structure of this instance; otherwise, false.
+        /// </returns>
+        public bool Equals(Polynomial other)
+        {
+            if (other is null)
             {
-                if (Math.Abs(pol.Coefficients[i] - Coefficients[i]) > double.Epsilon)
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (Degree != other.Degree)
+            {
+                return false;
+            }
+
+            for (var i = 0; i <= Degree; i++)
+            {
+                if (!this._coefficients[i].Equals(other._coefficients[i]))
                 {
                     return false;
                 }

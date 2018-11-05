@@ -14,9 +14,9 @@ namespace Task1.Tests
         public void Polynomial_EmptyArrayOfPolynomialCoefficients_ExpectedArgumentException()
             => Assert.Throws<ArgumentException>(() => new Polynomial(new double[] { }));
 
-        [TestCase(new[] { 2.3, 1, -5, 0, 1.1 }, ExpectedResult = 5)]
-        [TestCase(new[] { 0.0, 0, 0, 0, 0, 0 }, ExpectedResult = 6)]
-        [TestCase(new[] { 1.0, -1 }, ExpectedResult = 2)]
+        [TestCase(new[] { 2.3, 1, -5, 0, 1.1 }, ExpectedResult = 4)]
+        [TestCase(new[] { 0.0, 0, 0, 0, 0, 0 }, ExpectedResult = 0)]
+        [TestCase(new[] { 1.0, -1 }, ExpectedResult = 1)]
         public int Degree_PolynomialCoefficients_ExpectedPolynomialDegree(double[] polynomialCoefficients)
         {
             return new Polynomial(polynomialCoefficients).Degree;
@@ -33,7 +33,6 @@ namespace Task1.Tests
         }
 
         [TestCase(new[] { 2.3, 1, -5, 0, 1.1 }, 0, 2.3)]
-        [TestCase(new[] { 0.0, 0, 0, 0, 0, 0 }, 5, 0)]
         [TestCase(new[] { 1.0, -1 }, 1, -1)]
         public void Indexator_PolynomialCoefficients_ExpectedPolynomialCoefficientAtDegree(
             double[] polynomialCoefficients, int degree, double expectedCoefficient)
