@@ -5,7 +5,7 @@ using static Task2.Sort;
 namespace Task2.Tests
 {
     [TestClass]
-    public class SortTests
+    public class ArrayExtensions
     {
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
