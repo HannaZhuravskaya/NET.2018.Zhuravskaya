@@ -9,13 +9,13 @@ namespace Task3Console
         public static void Main(string[] args)
         {
             Clock clock = new Clock();
-            Timer countdown = new Timer(clock);
-            Timer countdown1 = new Timer(clock);
-            clock.StartClock("time to birthday", 4);
+            Timer timer1 = new Timer(clock);
+            Timer timer2 = new Timer(clock);
+            clock.StartClock(4, "time to birthday");
             Thread.Sleep(5000);
-            countdown.Unregister(clock);
-            clock.StartClock("time to birthday", 1);
-            Thread.Sleep(12000);
+            timer1.Unregister(clock);
+            clock.StartClock(1);
+            Thread.Sleep(3000);
         }
     }
 }
