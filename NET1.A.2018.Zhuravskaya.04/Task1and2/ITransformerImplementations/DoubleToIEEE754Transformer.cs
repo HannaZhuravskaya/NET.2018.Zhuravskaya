@@ -5,7 +5,7 @@ namespace Task1and2
     /// <summary>
     /// The implementation of ITransformer interface. Transform double to IEEE 754 format string.
     /// </summary>
-    public class DoubleToIEEE754Transformer: ITransformer<double, string>
+    public class DoubleToIEEE754Transformer : ITransformer<double, string>
     {
         /// <summary>
         /// Method converts a double to IEEE 754 format.

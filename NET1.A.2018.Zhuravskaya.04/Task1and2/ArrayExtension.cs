@@ -25,7 +25,7 @@ namespace Task1and2
         /// <exception cref="ArgumentException">
         /// Array length must not be zero.
         /// </exception>
-        public static TResult[] TransformTo<TSource, TResult>(this TSource[] array, ITransformer<TSource,TResult> transformer)
+        public static TResult[] TransformTo<TSource, TResult>(this TSource[] array, ITransformer<TSource, TResult> transformer)
         {
             return array.TransformTo(transformer.Transform);
         }
