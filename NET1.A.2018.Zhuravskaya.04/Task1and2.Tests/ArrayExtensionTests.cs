@@ -8,7 +8,7 @@ namespace Task1and2.Tests
     public class ArrayExtensionTests
     {
         [TestCaseSource(typeof(DataSourse), nameof(DataSourse.ArrayIsNull))]
-        public void TransformTo_ArrayIsNull_ExpectedArgumentNullException(double[] array, ITransformer transformer)
+        public void TransformTo_ArrayIsNull_ExpectedArgumentNullException(double[] array, ITransformer<double, string> transformer)
             => Assert.Throws<ArgumentNullException>(() =>
                 array.TransformTo(transformer));
 
@@ -20,7 +20,7 @@ namespace Task1and2.Tests
                 array.TransformTo(transformer));
 
         [TestCaseSource(typeof(DataSourse), nameof(DataSourse.ArrayLengthIsZero))]
-        public void TransformTo_ArrayLengthIsNull_ExpectedArgumentException(double[] array, ITransformer transformer)
+        public void TransformTo_ArrayLengthIsNull_ExpectedArgumentException(double[] array, ITransformer<double, string> transformer)
             => Assert.Throws<ArgumentException>(() =>
                 array.TransformTo(transformer));
 
@@ -32,7 +32,7 @@ namespace Task1and2.Tests
         [TestCaseSource(typeof(DataSourse), nameof(DataSourse.NotEmptyArray))]
         public void TransformTo_NotEmptyArray_StringArray(
             double[] array,
-            ITransformer transformer,
+            ITransformer<double, string> transformer,
             string[] expectedResult)
         {
             Assert.IsTrue(IsTheSameArrays(array.TransformTo(transformer), expectedResult));
