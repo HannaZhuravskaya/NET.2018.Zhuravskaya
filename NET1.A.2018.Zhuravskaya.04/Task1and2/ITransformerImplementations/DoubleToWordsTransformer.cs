@@ -3,7 +3,7 @@
     /// <summary>
     /// The implementation of ITransformer interface. Transform double to word format.
     /// </summary>
-    public class DoubleToWordsTransformer : ITransformer
+    public class DoubleToWordsTransformer : ITransformer<double, string>
     {
         /// <summary>
         /// Method takes real number and converts it into "word format".

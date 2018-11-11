@@ -3,17 +3,23 @@
     /// <summary>
     /// Provides an interface for setting the format.
     /// </summary>
-    public interface ITransformer
+    /// <typeparam name="TSource">
+    /// The type from which the transformation occurs.
+    /// </typeparam>
+    /// <typeparam name="TResult">
+    /// The type in which the transformation occurs.
+    /// </typeparam>
+    public interface ITransformer<in TSource, out TResult>
     {
         /// <summary>
-        /// The method transforms a real number into a string format.
+        /// The method transforms a variable of type TSource to type TResult.
         /// </summary>
-        /// <param name="number">
-        /// Real number.
+        /// <param name="source">
+        /// Variable of TSource type.
         /// </param>
         /// <returns>
-        /// Real number in string format.
+        /// The result of transforming a variable of type TSource to type TResult.
         /// </returns>
-        string Transform(double number);
+        TResult Transform(TSource source);
     }
 }
