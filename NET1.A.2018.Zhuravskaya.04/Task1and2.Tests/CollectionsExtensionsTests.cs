@@ -1,53 +1,79 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using NUnit.Framework;
+using Task1and2.Interfaces;
+using Task1and2.ITransformerImplementations;
 
 namespace Task1and2.Tests
 {
     [TestFixture]
-    public class ArrayExtensionTests
+    public class CollectionsExtensionsTests
     {
         [TestCaseSource(typeof(DataSourse), nameof(DataSourse.ArrayIsNull))]
         public void TransformTo_ArrayIsNull_ExpectedArgumentNullException(double[] array, ITransformer<double, string> transformer)
             => Assert.Throws<ArgumentNullException>(() =>
-                array.TransformTo(transformer));
+                array.Transform(transformer));
 
         [TestCaseSource(typeof(DataSourse), nameof(DataSourse.ArrayIsNullWithDelegates))]
         public void TransformDelegate_ArrayIsNull_ExpectedArgumentNullException(
-            double[] array,
+            IEnumerable<double> array,
             Func<double, string> transformer)
             => Assert.Throws<ArgumentNullException>(() =>
-                array.TransformTo(transformer));
-
-        [TestCaseSource(typeof(DataSourse), nameof(DataSourse.ArrayLengthIsZero))]
-        public void TransformTo_ArrayLengthIsNull_ExpectedArgumentException(double[] array, ITransformer<double, string> transformer)
-            => Assert.Throws<ArgumentException>(() =>
-                array.TransformTo(transformer));
-
-        [TestCaseSource(typeof(DataSourse), nameof(DataSourse.ArrayLengthIsZeroWithDelegates))]
-        public void TransformDelegate_ArrayLengthIsNull_ExpectedArgumentException(double[] array, Func<double, string> transformer)
-            => Assert.Throws<ArgumentException>(() =>
-                array.TransformTo(transformer));
+                array.Transform(transformer));
 
         [TestCaseSource(typeof(DataSourse), nameof(DataSourse.NotEmptyArray))]
         public void TransformTo_NotEmptyArray_StringArray(
-            double[] array,
+            IEnumerable<double> array,
             ITransformer<double, string> transformer,
             string[] expectedResult)
         {
-            Assert.IsTrue(IsTheSameArrays(array.TransformTo(transformer), expectedResult));
+            var resultList = new List<string>();
+            foreach (var element in array.Transform(transformer))
+            {
+                resultList.Add(element);
+            }
+
+            Assert.IsTrue(IsTheSameArrays(resultList.ToArray(), expectedResult));
         }
 
         [TestCaseSource(typeof(DataSourse), nameof(DataSourse.NotEmptyArrayWithDelegates))]
         public void TransformDelegate_NotEmptyArray_StringArray(
-            double[] array,
+            IEnumerable<double> array,
             Func<double, string> transformer,
             string[] expectedResult)
         {
-            Assert.IsTrue(IsTheSameArrays(array.TransformTo(transformer), expectedResult));
+            var resultList = new List<string>();
+            foreach (var element in array.Transform(transformer))
+            {
+                resultList.Add(element);
+            }
+
+            Assert.IsTrue(IsTheSameArrays(resultList.ToArray(), expectedResult));
         }
 
-        private bool IsTheSameArrays(string[] array, string[] expectedArray)
+        [TestCase(8, new int[]{0, 1, 1, 2, 3, 5, 8, 13})]
+        [TestCase(3, new int[] { 0, 1, 1 })]
+        [TestCase(5, new int[] { 0, 1, 1, 2, 3 })]
+        public void Fibonacci_ValidInput_SequenceOfFibonacciNumbers(int count, int[] expectedArray)
+        {
+            var resultArray = new int[count];
+            int cnt = 0;
+
+            foreach (var element in CollectionsExtensions.Fibonacci(count))
+            {
+                resultArray[cnt++] = (int)element;
+            }
+
+            Assert.IsTrue(IsTheSameArrays(resultArray, expectedArray));
+        }
+
+        [TestCase(-1)]
+        [TestCase(-1000)]
+        public void Fibonacci_InvalidInput_ExpectedArgumentOutOfRangeException(int count)
+            => Assert.Throws<ArgumentOutOfRangeException>(() => CollectionsExtensions.Fibonacci(count));
+
+        private bool IsTheSameArrays<T>(T[] array, T[] expectedArray) where T : IEquatable<T>
         {
             if (array.Length != expectedArray.Length)
             {
