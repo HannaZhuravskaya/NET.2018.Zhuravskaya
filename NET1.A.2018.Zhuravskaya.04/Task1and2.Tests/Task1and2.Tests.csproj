@@ -39,6 +39,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,11 +48,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArrayExtensionTests.cs" />
-    <Compile Include="DoubleToIEEE754Transformer.cs" />
-    <Compile Include="DoubleToIEEE754TransformerTests.cs" />
-    <Compile Include="DoubleToWordsTransformer.cs" />
-    <Compile Include="DoubleToWordsTransformerTests.cs" />
+    <Compile Include="CollectionsExtensionsTests.cs" />
+    <Compile Include="IFilterImplementations.Tests\ContainsDigitPatternTests.cs" />
+    <Compile Include="IFilterImplementations.Tests\EvenNumberPatternTests.cs" />
+    <Compile Include="IFilterImplementations.Tests\PatternMatchingTests.cs" />
+    <Compile Include="IFilterImplementations.Tests\PrimeNumberTests.cs" />
+    <Compile Include="IFilterImplementations.Tests\StringLengthPatternTests.cs" />
+    <Compile Include="ITransformerImplementations.Tests\DoubleToIEEE754TransformerTests.cs" />
+    <Compile Include="ITransformerImplementations.Tests\DoubleToWordsTransformerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
