@@ -9,15 +9,15 @@ namespace Task1and2.Tests.IFilterImplementations.Tests
     {
         [Test]
         public void IsFitThePattern_PatternStringIsNull_ExpectedArgumentNullException()
-            => Assert.Throws<ArgumentNullException>(()=>new PatternMatching(null).IsFitThePattern("asdfg"));
+            => Assert.Throws<ArgumentNullException>(()=>new PatternMatching(null).Filter("asdfg"));
 
         [Test]
         public void IsFitThePattern_SourceStringIsNull_ExpectedArgumentNullException()
-            => Assert.Throws<ArgumentNullException>(() => new PatternMatching("asdfg").IsFitThePattern(null));
+            => Assert.Throws<ArgumentNullException>(() => new PatternMatching("asdfg").Filter(null));
 
         [Test]
         public void IsFitThePattern_PatternStringLengthIsZero_ExpectedArgumentException()
-            => Assert.Throws<ArgumentException>(() => new PatternMatching("").IsFitThePattern("asdfg"));
+            => Assert.Throws<ArgumentException>(() => new PatternMatching("").Filter("asdfg"));
 
         [Test]
         public void IsFitThePattern_PatternStringElvis_ArrayContainsWordElvis()

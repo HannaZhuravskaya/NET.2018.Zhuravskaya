@@ -9,13 +9,13 @@ namespace Task1and2.Tests.IFilterImplementations.Tests
     {
         [Test]
         public void IsFitThePattern_SourceStringIsNull_ExpectedArgumentNullException()
-            => Assert.Throws<ArgumentNullException>(() => new StringLengthPattern(1).IsFitThePattern(null));
+            => Assert.Throws<ArgumentNullException>(() => new StringLengthPattern(1).Filter(null));
 
         [TestCase(-1, "")]
         [TestCase(-100, "asd")]
         [TestCase(-10000, "asdgg")]
         public void IsFitThePattern_PatternLengthLessThanZero_ExpectedArgumentException(int length, string sourceToFilter)
-            => Assert.Throws<ArgumentException>(() => new StringLengthPattern(length).IsFitThePattern(sourceToFilter));
+            => Assert.Throws<ArgumentException>(() => new StringLengthPattern(length).Filter(sourceToFilter));
 
         [Test]
         public void IsFitThePattern_PatternLengthIsNine_ArrayOfStringsWhereLengthIsNine()

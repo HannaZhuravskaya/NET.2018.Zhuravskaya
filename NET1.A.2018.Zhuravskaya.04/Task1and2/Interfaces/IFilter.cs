@@ -1,4 +1,4 @@
-﻿namespace Task1and2
+﻿namespace Task1and2.Interfaces
 {
     /// <summary>
     /// Provides an interface to filter by pattern. 
@@ -17,6 +17,6 @@
         /// <returns>
         /// Is source fit the pattern.
         /// </returns>
-        bool IsFitThePattern(TSource source);
+        bool Filter(TSource source);
     }
 }

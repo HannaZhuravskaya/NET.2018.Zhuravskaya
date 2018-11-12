@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Task1and2.Interfaces;
 
 namespace Task1and2.IFilterImplementations
 {
@@ -35,7 +36,7 @@ namespace Task1and2.IFilterImplementations
         /// <returns>
         /// Is source fit the pattern.
         /// </returns>
-        public bool IsFitThePattern(int source)
+        public bool Filter(int source)
         {
             var sourceArray = source.ToString();
 

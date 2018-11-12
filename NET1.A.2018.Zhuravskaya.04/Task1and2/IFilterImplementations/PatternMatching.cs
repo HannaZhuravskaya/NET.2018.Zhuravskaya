@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using Task1and2.Interfaces;
 
 namespace Task1and2.IFilterImplementations
 {
@@ -41,7 +42,7 @@ namespace Task1and2.IFilterImplementations
         /// <exception cref="ArgumentNullException">
         /// Source string must not be null.
         /// </exception>
-        public bool IsFitThePattern(string source)
+        public bool Filter(string source)
         {
             if (source is null)
             {
