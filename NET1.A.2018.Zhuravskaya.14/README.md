@@ -1,7 +1,8 @@
 # Day 14
  
 ### Task1
-Реализовать метод-генератор последовательности чисел Фибоначчи. Разработать unit-тесты.
+- Реализовать [метод-генератор](https://github.com/HannaZhuravskaya/NET.2018.Zhuravskaya/blob/master/NET1.A.2018.Zhuravskaya.04/Task1and2/CollectionsExtensions.cs) последовательности чисел Фибоначчи. 
+- Разработать [unit-тесты](https://github.com/HannaZhuravskaya/NET.2018.Zhuravskaya/blob/master/NET1.A.2018.Zhuravskaya.04/Task1and2.Tests/CollectionsExtensionsTests.cs).
 
 ### Task2
 - Реализовать обобщенный алгоритм бинарного поиска [BinarySearch](https://github.com/HannaZhuravskaya/NET.2018.Zhuravskaya/blob/master/NET1.A.2018.Zhuravskaya.02/Task2/ArrayExtensions.cs).  
