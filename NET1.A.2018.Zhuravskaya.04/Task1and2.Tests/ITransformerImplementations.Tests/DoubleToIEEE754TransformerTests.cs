@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using Task1and2.ITransformerImplementations;
 
 namespace Task1and2.Tests.ITransformerImplementations.Tests
 {

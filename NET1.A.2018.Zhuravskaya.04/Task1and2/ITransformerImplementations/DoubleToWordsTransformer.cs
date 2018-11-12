@@ -1,4 +1,6 @@
-﻿namespace Task1and2
+﻿using Task1and2.Interfaces;
+
+namespace Task1and2.ITransformerImplementations
 {
     /// <summary>
     /// The implementation of ITransformer interface. Transform double to word format.

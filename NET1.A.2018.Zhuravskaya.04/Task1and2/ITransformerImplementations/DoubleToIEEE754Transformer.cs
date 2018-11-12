@@ -1,6 +1,7 @@
 ﻿using System.Runtime.InteropServices;
+using Task1and2.Interfaces;
 
-namespace Task1and2
+namespace Task1and2.ITransformerImplementations
 {
     /// <summary>
     /// The implementation of ITransformer interface. Transform double to IEEE 754 format string.

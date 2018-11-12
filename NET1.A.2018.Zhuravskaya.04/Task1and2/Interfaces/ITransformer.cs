@@ -1,4 +1,4 @@
-﻿namespace Task1and2
+﻿namespace Task1and2.Interfaces
 {
     /// <summary>
     /// Provides an interface for setting the format.
