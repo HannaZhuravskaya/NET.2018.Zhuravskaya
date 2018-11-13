@@ -70,7 +70,6 @@ namespace Task1and2
                     yield return transformer.Invoke(element);
                 }
             }
- 
         }
 
         /// <summary>
@@ -153,7 +152,7 @@ namespace Task1and2
 
             return FibonacciCore();
 
-            IEnumerable<BigInteger>FibonacciCore()
+            IEnumerable<BigInteger> FibonacciCore()
             {
                 BigInteger current = 0;
                 BigInteger next = 1;
