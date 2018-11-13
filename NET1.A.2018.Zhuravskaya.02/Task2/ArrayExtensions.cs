@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Task2
 {
@@ -13,17 +14,48 @@ namespace Task2
         /// <param name="array">
         /// Array to sort.
         /// </param>
+        /// <typeparam name="T">
+        /// Type of array.
+        /// </typeparam>
+        /// <param name="comparer">
+        /// IComparer implementations.
+        /// </param>
         /// <exception cref="ArgumentNullException">
         /// Thrown if array is null.
         /// </exception>
         /// <exception cref="ArgumentException">
         /// Thrown if array has no elements.
         /// </exception>
-        public static void MergeSort<T>(this T[] array) where T : IComparable<T> 
+        public static void MergeSort<T>(this T[] array, IComparer<T> comparer)
+        {
+            MergeSort(array, comparer.Compare);
+        }
+
+        /// <summary>
+        /// Method of merge sort.
+        /// </summary>
+        /// <param name="array">
+        /// Array to sort.
+        /// </param>
+        /// <typeparam name="T">
+        /// Type of array.
+        /// </typeparam>
+        /// <param name="comparer">
+        /// delegate Comparison.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if array is null.
+        /// Comparer must not be null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown if array has no elements.
+        /// </exception>
+        public static void MergeSort<T>(this T[] array, Comparison<T> comparer)
         {
             CheckSortingConditions(array);
+            CompareValidation(comparer);
 
-            var sortedInput = MergeSortRecursive(array);
+            var sortedInput = MergeSortRecursive(array, comparer);
 
             for (int i = 0; i < array.Length; ++i)
             {
@@ -37,17 +69,49 @@ namespace Task2
         /// <param name="array">
         /// Array to sort.
         /// </param>
+        /// <typeparam name="T">
+        /// Type of array.
+        /// </typeparam>
+        /// <param name="comparer">
+        /// IComparer implementations.
+        /// </param>
         /// /// <exception cref="ArgumentNullException">
         /// Thrown if array is null.
+        /// Comparer must not be null.
         /// </exception>
         /// <exception cref="ArgumentException">
         /// Thrown if array has no elements.
         /// </exception>
-        public static void QuickSort<T>(this T[] array) where T : IComparable<T> 
+        public static void QuickSort<T>(this T[] array, IComparer<T> comparer)
+        {
+            QuickSort(array, comparer.Compare);
+        }
+
+        /// <summary>
+        /// Method of quick sort.
+        /// </summary>
+        /// <param name="array">
+        /// Array to sort.
+        /// </param>
+        /// <typeparam name="T">
+        /// Type of array.
+        /// </typeparam>
+        /// <param name="comparer">
+        /// delegate Comparison.
+        /// </param>
+        /// /// <exception cref="ArgumentNullException">
+        /// Thrown if array is null.
+        /// Comparer must not be null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown if array has no elements.
+        /// </exception>
+        public static void QuickSort<T>(this T[] array, Comparison<T> comparer)
         {
             CheckSortingConditions(array);
+            CompareValidation(comparer);
 
-            QuickSortRecursive(array, 0, array.Length - 1);
+            QuickSortRecursive(array, 0, array.Length - 1, comparer);
         }
 
         /// <summary>
@@ -62,26 +126,134 @@ namespace Task2
         /// <param name="elementToFind">
         /// Element to find.
         /// </param>
+        /// <param name="comparer">
+        /// IComparer implementations.
+        /// </param>
         /// <returns>
-        /// The index of searched element or -1 if it is not in the array.
+        /// The index of searched element or null if it is not in the array.
         /// </returns>
         /// <exception cref="ArgumentNullException">
         /// Array, array elements and element to find should not be null.
+        /// Comparer must not be null.
         /// </exception>
         /// <exception cref="ArgumentException">
         /// Array length should not be zero.
         /// </exception>
-        public static int BinarySearch<T>(this T[] array, T elementToFind) where T : IComparable<T>
+        public static int? BinarySearch<T>(this T[] array, T elementToFind, IComparer<T> comparer)
+        {
+            return BinarySearch(array, elementToFind, comparer.Compare);
+        }
+
+        /// <summary>
+        /// Searches for an element in an array.
+        /// </summary>
+        /// <typeparam name="T">
+        /// Type of array elements.
+        /// </typeparam>
+        /// <param name="array">
+        /// Sorted array in which to search.
+        /// </param>
+        /// <param name="elementToFind">
+        /// Element to find.
+        /// </param>
+        /// <param name="comparer">
+        /// delegate Comparison.
+        /// </param>
+        /// <returns>
+        /// The index of searched element or null if it is not in the array.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Array, array elements and element to find should not be null.
+        /// Comparer must not be null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Array length should not be zero.
+        /// </exception>
+        public static int? BinarySearch<T>(this T[] array, T elementToFind, Comparison<T> comparer)
         {
             BinarySearchInputValidation(array, elementToFind);
+            return BinarySearch(array, elementToFind, comparer, 0, array.Length);
+        }
 
-            if (elementToFind.CompareTo(array[0]) < 0 || elementToFind.CompareTo(array[array.Length - 1]) > 0)
+        /// <summary>
+        /// Searches for an element in an array.
+        /// </summary>
+        /// <typeparam name="T">
+        /// Type of array elements.
+        /// </typeparam>
+        /// <param name="array">
+        /// Sorted array in which to search.
+        /// </param>
+        /// <param name="elementToFind">
+        /// Element to find.
+        /// </param>
+        /// <param name="comparer">
+        /// IComparer implementation.
+        /// </param>
+        /// <param name="start">
+        /// First index to search.
+        /// </param>
+        /// <param name="end">
+        /// Last index to search.
+        /// </param>
+        /// <returns>
+        /// The index of searched element or null if it is not in the array.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Array, array elements and element to find should not be null.
+        /// Comparer must not be null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Array length should not be zero.
+        /// </exception>
+        public static int? BinarySearch<T>(this T[] array, T elementToFind, IComparer<T> comparer, int start, int end)
+        {
+            return BinarySearch(array, elementToFind, comparer.Compare, start, end);
+        }
+
+        /// <summary>
+        /// Searches for an element in an array.
+        /// </summary>
+        /// <typeparam name="T">
+        /// Type of array elements.
+        /// </typeparam>
+        /// <param name="array">
+        /// Sorted array in which to search.
+        /// </param>
+        /// <param name="elementToFind">
+        /// Element to find.
+        /// </param>
+        /// <param name="comparer">
+        /// delegate Comparison.
+        /// </param>
+        /// <param name="start">
+        /// First index to search.
+        /// </param>
+        /// <param name="end">
+        /// Last index to search.
+        /// </param>
+        /// <returns>
+        /// The index of searched element or null if it is not in the array.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Array, array elements and element to find should not be null.
+        /// Comparer must not be null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Array length should not be zero.
+        /// </exception>
+        public static int? BinarySearch<T>(this T[] array, T elementToFind, Comparison<T> comparer, int start, int end)
+        {
+            BinarySearchInputValidation(array, elementToFind);
+            CompareValidation(comparer);
+
+            if (comparer.Invoke(elementToFind, array[start]) < 0 || comparer.Invoke(elementToFind, array[end - 1]) > 0)
             {
-                return -1;
+                return null;
             }
 
-            int first = 0;
-            int last = array.Length;
+            int first = start;
+            int last = end;
 
             while (first < last)
             {
@@ -92,7 +264,7 @@ namespace Task2
                     throw new ArgumentNullException();
                 }
 
-                if (elementToFind.CompareTo(array[middle]) <= 0)
+                if (comparer.Invoke(elementToFind, array[middle]) <= 0)
                 {
                     last = middle;
                 }
@@ -107,10 +279,10 @@ namespace Task2
                 return last;
             }
 
-            return -1;
+            return null;
         }
 
-        private static T[] MergeSortRecursive<T>(T[] input) where T : IComparable<T> 
+        private static T[] MergeSortRecursive<T>(T[] input, Comparison<T> comparer)
         {
             if (input.Length == 1)
             {
@@ -126,21 +298,21 @@ namespace Task2
             Array.Copy(input, 0, left, 0, middle);
             Array.Copy(input, middle, right, 0, input.Length - middle);
 
-            left = MergeSortRecursive(left);
-            right = MergeSortRecursive(right);
-            result = Merge(left, right);
+            left = MergeSortRecursive(left, comparer);
+            right = MergeSortRecursive(right, comparer);
+            result = Merge(left, right, comparer);
 
             return result;
         }
 
-        private static T[] Merge<T>(T[] left, T[] right) where T : IComparable<T> 
+        private static T[] Merge<T>(T[] left, T[] right, Comparison<T> comparer) 
         {
             var result = new T[left.Length + right.Length];
 
             int leftIndex = 0, rightIndex = 0, resultIndex = 0;
             while (leftIndex < left.Length && rightIndex < right.Length)
             {
-                if (left[leftIndex].CompareTo(right[rightIndex]) < 0)
+                if (comparer.Invoke(left[leftIndex], right[rightIndex]) < 0)
                 {
                     result[resultIndex] = left[leftIndex];
                     leftIndex++;
@@ -171,12 +343,12 @@ namespace Task2
             return result;
         }
 
-        private static int QuickSortPartition<T>(T[] array, int start, int end) where T : IComparable<T> 
+        private static int QuickSortPartition<T>(T[] array, int start, int end, Comparison<T> comparer)
         {
             int marker = start;
             for (int i = start; i <= end; i++)
             {
-                if (array[i].CompareTo(array[end]) <= 0)
+                if (comparer.Invoke(array[i], array[end]) <= 0)
                 {
                     Swap(ref array[marker], ref array[i]);
                     marker += 1;
@@ -186,16 +358,16 @@ namespace Task2
             return marker - 1;
         }
 
-        private static void QuickSortRecursive<T>(T[] array, int start, int end) where T : IComparable<T> 
+        private static void QuickSortRecursive<T>(T[] array, int start, int end, Comparison<T> comparer) 
         {
             if (start >= end)
             {
                 return;
             }
 
-            int pivot = QuickSortPartition(array, start, end);
-            QuickSortRecursive(array, start, pivot - 1);
-            QuickSortRecursive(array, pivot + 1, end);
+            int pivot = QuickSortPartition(array, start, end, comparer);
+            QuickSortRecursive(array, start, pivot - 1, comparer);
+            QuickSortRecursive(array, pivot + 1, end, comparer);
         }
 
         private static void Swap<T>(ref T a, ref T b)
@@ -223,6 +395,14 @@ namespace Task2
                 {
                     throw new ArgumentNullException();
                 }
+            }
+        }
+
+        private static void CompareValidation<T>(Comparison<T> comparer)
+        {
+            if (comparer is null)
+            {
+                throw new ArgumentNullException();
             }
         }
 

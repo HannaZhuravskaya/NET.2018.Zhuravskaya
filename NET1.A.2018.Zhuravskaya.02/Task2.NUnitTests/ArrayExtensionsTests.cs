@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using NUnit.Framework;
 using Task2;
 
@@ -10,16 +11,16 @@ namespace Task2.NUnitTests
     {
         [Test]
         public void MergeSort_EmptyArray_ArgumentException()
-            => Assert.Throws<ArgumentException>(() => new int[] { }.MergeSort());
+            => Assert.Throws<ArgumentException>(() => new int[] { }.MergeSort((x, y)=> x - y));
 
         [Test]
         public void MergeSort_ArrayIsNull_ArgumentNullException()
-            => Assert.Throws<ArgumentNullException>(code: () => ArrayExtensions.MergeSort<int>(null));
+            => Assert.Throws<ArgumentNullException>(code: () => ArrayExtensions.MergeSort<int>(null, (x, y) => x - y));
 
         [TestCaseSource(typeof(DataForTests), nameof(DataForTests.SortedArray_SortedArray))]
         public void MergeSort_SortedArray_ExpectNotChangedArray(int[] arrayToSort)
         {
-            arrayToSort.MergeSort();
+            arrayToSort.MergeSort((x, y) => x - y);
 
             Assert.True(IsArraySorted(arrayToSort));
         }
@@ -27,23 +28,23 @@ namespace Task2.NUnitTests
         [TestCaseSource(typeof(DataForTests), nameof(DataForTests.ReversedSortedArray_SortedInDirectOrderArray))]
         public void MergeSort_ReverseSortedArray_ExpectSortedInDirectOrderArray(int[] arrayToSort)
         {
-            arrayToSort.MergeSort();
+            arrayToSort.MergeSort((x, y) => x - y);
 
             Assert.True(IsArraySorted(arrayToSort));
         }
 
         [Test]
         public void QuickSort_EmptyArray_ArgumentException()
-            => Assert.Throws<ArgumentException>(() => new int[] { }.QuickSort());
+            => Assert.Throws<ArgumentException>(() => new int[] { }.QuickSort((x, y) => x - y));
 
         [Test]
         public void QuickSort_ArrayIsNull_ArgumentNullException()
-            => Assert.Throws<ArgumentNullException>(() => ArrayExtensions.QuickSort<int>(null));
+            => Assert.Throws<ArgumentNullException>(() => ArrayExtensions.QuickSort<int>(null, (x, y) => x - y));
 
         [TestCaseSource(typeof(DataForTests), nameof(DataForTests.SortedArray_SortedArray))]
         public void QuickSort_SortedArray_ExpectNotChangedArray(int[] arrayToSort)
         {
-            arrayToSort.QuickSort();
+            arrayToSort.QuickSort((x, y) => x - y);
 
             Assert.True(IsArraySorted(arrayToSort));
         }
@@ -51,7 +52,7 @@ namespace Task2.NUnitTests
         [TestCaseSource(typeof(DataForTests), nameof(DataForTests.ReversedSortedArray_SortedInDirectOrderArray))]
         public void QuickSort_ReverseSortedArray_ExpectSortedInDirectOrderArray(int[] arrayToSort)
         {
-            arrayToSort.QuickSort();
+            arrayToSort.QuickSort((x, y) => x - y);
 
             Assert.True(IsArraySorted(arrayToSort));
         }
@@ -62,7 +63,7 @@ namespace Task2.NUnitTests
         {
             int[] arrayToSort = GenerateRandomNumberArray(size);
 
-            arrayToSort.QuickSort();
+            arrayToSort.QuickSort((x, y) => x - y);
 
             Assert.True(IsArraySorted(arrayToSort));
         }
@@ -73,39 +74,39 @@ namespace Task2.NUnitTests
         {
             int[] arrayToSort = GenerateRandomNumberArray(size);
 
-            arrayToSort.MergeSort();
+            arrayToSort.MergeSort((x, y) => x - y);
 
             Assert.True(IsArraySorted(arrayToSort));
         }
 
         [Test]
         public void BinarySearch_EmptyArray_ArgumentException()
-            => Assert.Throws<ArgumentException>(() => new int[] { }.BinarySearch(0));
+            => Assert.Throws<ArgumentException>(() => new int[] { }.BinarySearch(1, (x, y) => x - y));
 
         [Test]
         public void BinarySearch_ArrayIsNull_ArgumentNullException()
-            => Assert.Throws<ArgumentNullException>(() => ArrayExtensions.BinarySearch(null, 0));
+            => Assert.Throws<ArgumentNullException>(() => ArrayExtensions.BinarySearch(null, 0, (x, y) => x - y));
 
         [TestCase(new[] {1, 2, 3, 4, 5, 6, 7, 8}, 3, ExpectedResult = 2)]
         [TestCase(new[] {1, 2, 3, 4, 5, 6, 7, 8}, 1, ExpectedResult = 0)]
-        public int BinarySearch_ElementToFindThatInTheArray_PositionOfElementInTheArray(int[] array, int elementToFind)
+        public int? BinarySearch_ElementToFindThatInTheArray_PositionOfElementInTheArray(int[] array, int elementToFind)
         {
-            return array.BinarySearch(elementToFind);
+            return array.BinarySearch(elementToFind, (x, y) => x - y);
         }
 
 
-        [TestCase(new[] {1, 2, 3, 4, 5, 6, 7, 8}, 9, ExpectedResult = -1)]
-        [TestCase(new[] {1, 2, 3, 4, 5, 6, 7, 8}, 0, ExpectedResult = -1)]
-        [TestCase(new[] {1, 2, 3, 5, 6, 7, 8}, 4, ExpectedResult = -1)]
-        public int BinarySearch_ElementToFindThatNotInTheArray_ExpectedMinusOne(int[] array, int elementToFind)
+        [TestCase(new[] {1, 2, 3, 4, 5, 6, 7, 8}, 9, ExpectedResult = null)]
+        [TestCase(new[] {1, 2, 3, 4, 5, 6, 7, 8}, 0, ExpectedResult = null)]
+        [TestCase(new[] {1, 2, 3, 5, 6, 7, 8}, 4, ExpectedResult = null)]
+        public int? BinarySearch_ElementToFindThatNotInTheArray_ExpectedMinusOne(int[] array, int elementToFind)
         {
-            return array.BinarySearch(elementToFind);
+            return array.BinarySearch(elementToFind, (x, y) => x - y);
         }
 
         [TestCaseSource(typeof(DataForTests), nameof(DataForTests.StringArray))]
         public void MergeSort_StringArray_ExpectedSortedArray(StringArray arrayToSort)
         {
-            arrayToSort.Array.MergeSort();
+            arrayToSort.Array.MergeSort(string.Compare);
 
             Assert.True(IsArraySorted(arrayToSort.Array));
         }
@@ -113,16 +114,16 @@ namespace Task2.NUnitTests
         [TestCaseSource(typeof(DataForTests), nameof(DataForTests.StringArray))]
         public void QuickSort_StringArray_ExpectedSortedArray(StringArray arrayToSort)
         {
-            arrayToSort.Array.QuickSort();
+            arrayToSort.Array.QuickSort(string.Compare);
 
             Assert.True(IsArraySorted(arrayToSort.Array));
         }
 
 
         [TestCaseSource(typeof(DataForTests), nameof(DataForTests.StringArray_ElementToFind_IndexOfElement))]
-        public int BinarySearch_ElementToFindInTheStringArray_PositionOfElementInTheArray(StringArray array, string elementToFind)
+        public int? BinarySearch_ElementToFindInTheStringArray_PositionOfElementInTheArray(StringArray array, string elementToFind)
         {
-            return array.Array.BinarySearch(elementToFind);
+            return array.Array.BinarySearch(elementToFind, string.Compare);
         }
 
         private static bool IsArraySorted<T>(T[] array) where T : IComparable<T>
@@ -194,9 +195,9 @@ namespace Task2.NUnitTests
             {
                 yield return new TestCaseData(new StringArray("a", "b", "c"), "b").Returns(1);
                 yield return new TestCaseData(new StringArray("a", "b", "c", "d"), "d").Returns(3);
-                yield return new TestCaseData(new StringArray("b", "d"), "a").Returns(-1);
-                yield return new TestCaseData(new StringArray("b", "d"), "e").Returns(-1);
-                yield return new TestCaseData(new StringArray("b", "d"), "c").Returns(-1);
+                yield return new TestCaseData(new StringArray("b", "d"), "a").Returns(null);
+                yield return new TestCaseData(new StringArray("b", "d"), "e").Returns(null);
+                yield return new TestCaseData(new StringArray("b", "d"), "c").Returns(null);
             }
         }
     }
