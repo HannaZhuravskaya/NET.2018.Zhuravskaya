@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2050
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Queue", "Queue\Queue.csproj", "{E1DA3E00-179F-48EA-BBC9-EB8CA9ECACEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueueTests", "QueueTests\QueueTests.csproj", "{80DAFA43-4EDC-468E-AB2D-F5D2F0D575FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueueConsole", "QueueConsole\QueueConsole.csproj", "{848F7D20-5139-4665-95A9-FA95D2B5054C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E1DA3E00-179F-48EA-BBC9-EB8CA9ECACEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1DA3E00-179F-48EA-BBC9-EB8CA9ECACEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1DA3E00-179F-48EA-BBC9-EB8CA9ECACEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1DA3E00-179F-48EA-BBC9-EB8CA9ECACEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80DAFA43-4EDC-468E-AB2D-F5D2F0D575FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80DAFA43-4EDC-468E-AB2D-F5D2F0D575FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80DAFA43-4EDC-468E-AB2D-F5D2F0D575FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80DAFA43-4EDC-468E-AB2D-F5D2F0D575FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{848F7D20-5139-4665-95A9-FA95D2B5054C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{848F7D20-5139-4665-95A9-FA95D2B5054C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{848F7D20-5139-4665-95A9-FA95D2B5054C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{848F7D20-5139-4665-95A9-FA95D2B5054C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2F3511B0-CD63-45EF-8219-B243778846E0}
+	EndGlobalSection
+EndGlobal
