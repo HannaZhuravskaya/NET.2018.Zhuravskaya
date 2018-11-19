@@ -10,7 +10,7 @@ namespace Queue
     /// <typeparam name="T">
     /// Specifies the type of elements in the queue.
     /// </typeparam>
-    public class Queue<T> : IEnumerable<T>
+    public class Queue<T> : IEnumerable, IEnumerable<T>
     {
         private const int DefaultCapacity = 4;
 
@@ -21,17 +21,13 @@ namespace Queue
         private int _size;
         private int _version;
 
+        #region Queue.Constructors
+
         /// <summary>
         /// Initializes a new instance of the Queue class that is empty and has the default initial capacity.
         /// </summary>
-        public Queue()
+        public Queue() : this(DefaultCapacity)
         {
-            _array = new T[DefaultCapacity];
-            _head = 0;
-            _tail = 0;
-            _capacity = DefaultCapacity;
-            _size = _tail - _head;
-            _version = 0;
         }
 
         /// <summary>
@@ -67,26 +63,22 @@ namespace Queue
         /// <exception cref="ArgumentNullException">
         /// collection is null.
         /// </exception>
-        public Queue(IEnumerable<T> collection)
+        public Queue(IEnumerable<T> collection) : this(DefaultCapacity)
         {
             if (collection is null)
             {
                 throw new ArgumentNullException();
             }
 
-            var tempList = new List<T>();
             foreach (var element in collection)
             {
-                tempList.Add(element);
+                this.Enqueue(element);
             }
-
-            _array = tempList.ToArray();
-            _head = 0;
-            _tail = _array.Length;
-            _capacity = _array.Length;
-            _size = _tail - _head;
-            _version = 0;
         }
+
+        #endregion
+
+        #region Queue.Properties
 
         /// <summary>
         /// Gets the number of elements contained in the Queue.
@@ -95,6 +87,18 @@ namespace Queue
         /// The number of elements contained in the Queue.
         /// </returns>
         public int Count => _size;
+
+        /// <summary>
+        /// Determines whether Queue is empty.
+        /// </summary>
+        /// <returns>
+        /// true if Queue is empty; otherwise, false.
+        /// </returns>
+        public bool IsEmpty => _size == 0;
+
+        #endregion
+
+        #region Queue.PublicMethods
 
         /// <summary>
         /// Adds an object to the end of the Queue.
@@ -214,7 +218,7 @@ namespace Queue
                 Array.Clear(_array, _head, _capacity - _head);
                 Array.Clear(_array, 0, _tail);
             }
-            
+
             _head = 0;
             _tail = 0;
             _size = 0;
@@ -323,11 +327,15 @@ namespace Queue
                 _version++;
             }
         }
-      
+
         public Enumerator GetEnumerator()
         {
             return new Enumerator(this);
         }
+
+        #endregion
+
+        #region Queue.InterfaceExpliciteImplementations
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
@@ -338,6 +346,10 @@ namespace Queue
         {
             return GetEnumerator();
         }
+
+        #endregion
+
+        #region Queue.Enumerator
 
         /// <summary>
         /// Enumerates the elements of a Queue.
@@ -430,5 +442,7 @@ namespace Queue
                 _numberOfIterations = 0;
             }
         }
+
+        #endregion
     }
 }
