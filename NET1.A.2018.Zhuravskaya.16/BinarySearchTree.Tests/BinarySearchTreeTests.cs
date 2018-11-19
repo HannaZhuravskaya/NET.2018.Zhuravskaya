@@ -66,14 +66,13 @@ namespace BinarySearchTree.Tests
         [TestCase(new int[] {1, 1, 1, 1, 1, 1}, new int[] {1})]
         public void Add_IntegerTreeWithDefaultComparer_TreeWithAddedNodes(int[] nodes, int[] expectedArray)
         {
-            var tree = new BinarySearchTree<int>();
+            var tree = new BinarySearchTree<int>(BinarySearchTree<int>.Traversal.PreOrder);
             foreach (var node in nodes)
             {
                 tree.Add(node);
             }
 
-            var resultArray = new int[expectedArray.Length];
-            tree.CopyTo(resultArray, 0);
+            var resultArray = tree.ToArray();
             CollectionAssert.AreEqual(expectedArray, resultArray);
         }
 
@@ -83,14 +82,13 @@ namespace BinarySearchTree.Tests
         public void Add_IntegerTreeWithComparer_TreeWithAddedNodes(int[] nodes, int[] expectedArray)
         {
             var comparer = Comparer<int>.Create((x, y) => x.ToString().Length - y.ToString().Length);
-            var tree = new BinarySearchTree<int>(comparer);
+            var tree = new BinarySearchTree<int>(comparer, BinarySearchTree<int>.Traversal.PreOrder);
             foreach (var node in nodes)
             {
                 tree.Add(node);
             }
 
-            var resultArray = new int[expectedArray.Length];
-            tree.CopyTo(resultArray, 0);
+            var resultArray = tree.ToArray();
             CollectionAssert.AreEqual(expectedArray, resultArray);
         }
 
@@ -99,7 +97,7 @@ namespace BinarySearchTree.Tests
         public void Add_StringTreeWithDefaultComparer_TreeWithAddedNodes(string inputNodes, string expectedNodes)
         {
             var nodes = inputNodes.Split(' ');
-            var tree = new BinarySearchTree<string>();
+            var tree = new BinarySearchTree<string>(BinarySearchTree<string>.Traversal.PreOrder);
             foreach (var node in nodes)
             {
                 tree.Add(node);
@@ -107,8 +105,7 @@ namespace BinarySearchTree.Tests
 
             var expectedArray = expectedNodes.Split(' ');
 
-            var resultArray = new string[expectedArray.Length];
-            tree.CopyTo(resultArray, 0);
+            var resultArray = tree.ToArray();
 
             CollectionAssert.AreEqual(expectedArray, resultArray);
         }
@@ -119,7 +116,7 @@ namespace BinarySearchTree.Tests
         {
             var nodes = inputNodes.Split(' ');
             var comparer = Comparer<string>.Create((x, y) => x.Length - y.Length);
-            var tree = new BinarySearchTree<string>(comparer);
+            var tree = new BinarySearchTree<string>(comparer, BinarySearchTree<string>.Traversal.PreOrder);
             foreach (var node in nodes)
             {
                 tree.Add(node);
@@ -127,8 +124,7 @@ namespace BinarySearchTree.Tests
 
             var expectedArray = expectedNodes.Split(' ');
 
-            var resultArray = new string[expectedArray.Length];
-            tree.CopyTo(resultArray, 0);
+            var resultArray = tree.ToArray();
 
             CollectionAssert.AreEqual(expectedArray, resultArray);
         }
@@ -143,7 +139,7 @@ namespace BinarySearchTree.Tests
                 nodes.Add(node);
             }
 
-            var tree = new BinarySearchTree<Book>();
+            var tree = new BinarySearchTree<Book>(BinarySearchTree<Book>.Traversal.PreOrder);
             foreach (var node in nodes)
             {
                 tree.Add(new Book(node[0], node[1]));
@@ -151,8 +147,7 @@ namespace BinarySearchTree.Tests
 
             var expectedArray = expectedNodes.Split(' ');
 
-            var resultArray = new Book[expectedArray.Length];
-            tree.CopyTo(resultArray, 0);
+            var resultArray = tree.ToArray();
 
             CollectionAssert.AreEqual(expectedArray, resultArray.Select(element => element.Title));
         }
@@ -169,7 +164,7 @@ namespace BinarySearchTree.Tests
 
             var comparer =
                 Comparer<Book>.Create((x, y) => string.Compare(x.Author, y.Author, StringComparison.Ordinal));
-            var tree = new BinarySearchTree<Book>(comparer);
+            var tree = new BinarySearchTree<Book>(comparer, BinarySearchTree<Book>.Traversal.PreOrder);
             foreach (var node in nodes)
             {
                 tree.Add(new Book(node[0], node[1]));
@@ -177,8 +172,7 @@ namespace BinarySearchTree.Tests
 
             var expectedArray = expectedNodes.Split(' ');
 
-            var resultArray = new Book[expectedArray.Length];
-            tree.CopyTo(resultArray, 0);
+            var resultArray = tree.ToArray();
 
             CollectionAssert.AreEqual(expectedArray, resultArray.Select(element => element.Title));
         }
@@ -188,7 +182,7 @@ namespace BinarySearchTree.Tests
         public void Add_PointTreeWithComparer_TreeWithAddedNodes(int[] nodesX, int[] nodesY, string expectedInput)
         {
             var comparer = Comparer<Point>.Create((x, y) => x.Y - y.Y);
-            var tree = new BinarySearchTree<Point>(comparer);
+            var tree = new BinarySearchTree<Point>(comparer, BinarySearchTree<Point>.Traversal.PreOrder);
             for (int i = 0; i < nodesX.Length; ++i)
             {
                 tree.Add(new Point(nodesX[i], nodesY[i]));
@@ -196,8 +190,7 @@ namespace BinarySearchTree.Tests
 
             var expectedArray = expectedInput.Split(' ');
 
-            var resultArray = new Point[expectedArray.Length];
-            tree.CopyTo(resultArray, 0);
+            var resultArray = tree.ToArray();
 
             CollectionAssert.AreEqual(expectedArray, resultArray.Select(element => element.ToString()));
         }
@@ -211,7 +204,7 @@ namespace BinarySearchTree.Tests
         [TestCase(new int[] {1, 1, 1, 1, 1, 1}, ExpectedResult = 1)]
         public int Count_IntegerTreeWithDefaultComparer_TreeCount(int[] nodes)
         {
-            var tree = new BinarySearchTree<int>();
+            var tree = new BinarySearchTree<int>(BinarySearchTree<int>.Traversal.PreOrder);
             foreach (var node in nodes)
             {
                 tree.Add(node);
@@ -226,7 +219,7 @@ namespace BinarySearchTree.Tests
         public int Count_IntegerTreeWithComparer_TreeCount(int[] nodes)
         {
             var comparer = Comparer<int>.Create((x, y) => x.ToString().Length - y.ToString().Length);
-            var tree = new BinarySearchTree<int>(comparer);
+            var tree = new BinarySearchTree<int>(comparer, BinarySearchTree<int>.Traversal.PreOrder);
             foreach (var node in nodes)
             {
                 tree.Add(node);
@@ -240,7 +233,7 @@ namespace BinarySearchTree.Tests
         public int Count_StringTreeWithDefaultComparer_TreeCount(string inputNodes)
         {
             var nodes = inputNodes.Split(' ');
-            var tree = new BinarySearchTree<string>();
+            var tree = new BinarySearchTree<string>(BinarySearchTree<string>.Traversal.PreOrder);
             foreach (var node in nodes)
             {
                 tree.Add(node);
@@ -255,7 +248,7 @@ namespace BinarySearchTree.Tests
         {
             var nodes = inputNodes.Split(' ');
             var comparer = Comparer<string>.Create((x, y) => x.Length - y.Length);
-            var tree = new BinarySearchTree<string>(comparer);
+            var tree = new BinarySearchTree<string>(comparer, BinarySearchTree<string>.Traversal.PreOrder);
             foreach (var node in nodes)
             {
                 tree.Add(node);
@@ -274,7 +267,7 @@ namespace BinarySearchTree.Tests
                 nodes.Add(node);
             }
 
-            var tree = new BinarySearchTree<Book>();
+            var tree = new BinarySearchTree<Book>(BinarySearchTree<Book>.Traversal.PreOrder);
             foreach (var node in nodes)
             {
                 tree.Add(new Book(node[0], node[1]));
@@ -295,7 +288,7 @@ namespace BinarySearchTree.Tests
 
             var comparer =
                 Comparer<Book>.Create((x, y) => string.Compare(x.Author, y.Author, StringComparison.Ordinal));
-            var tree = new BinarySearchTree<Book>(comparer);
+            var tree = new BinarySearchTree<Book>(comparer, BinarySearchTree<Book>.Traversal.PreOrder);
             foreach (var node in nodes)
             {
                 tree.Add(new Book(node[0], node[1]));
@@ -309,7 +302,7 @@ namespace BinarySearchTree.Tests
         public int Count_PointTreeWithComparer_TreeCount(int[] nodesX, int[] nodesY)
         {
             var comparer = Comparer<Point>.Create((x, y) => x.Y - y.Y);
-            var tree = new BinarySearchTree<Point>(comparer);
+            var tree = new BinarySearchTree<Point>(comparer, BinarySearchTree<Point>.Traversal.PreOrder);
             for (int i = 0; i < nodesX.Length; ++i)
             {
                 tree.Add(new Point(nodesX[i], nodesY[i]));
@@ -327,7 +320,7 @@ namespace BinarySearchTree.Tests
         [TestCase(new int[] {1, 1, 1, 1, 1, 1})]
         public void Clear_IntegerTreeWithDefaultComparer_EmptyTree(int[] nodes)
         {
-            var tree = new BinarySearchTree<int>();
+            var tree = new BinarySearchTree<int>(BinarySearchTree<int>.Traversal.PreOrder);
             foreach (var node in nodes)
             {
                 tree.Add(node);
@@ -344,7 +337,7 @@ namespace BinarySearchTree.Tests
         public void Clear_IntegerTreeWithComparer_EmptyTree(int[] nodes)
         {
             var comparer = Comparer<int>.Create((x, y) => x.ToString().Length - y.ToString().Length);
-            var tree = new BinarySearchTree<int>(comparer);
+            var tree = new BinarySearchTree<int>(comparer, BinarySearchTree<int>.Traversal.PreOrder);
             foreach (var node in nodes)
             {
                 tree.Add(node);
@@ -360,7 +353,7 @@ namespace BinarySearchTree.Tests
         public void Clear_StringTreeWithDefaultComparer_EmptyTree(string inputNodes)
         {
             var nodes = inputNodes.Split(' ');
-            var tree = new BinarySearchTree<string>();
+            var tree = new BinarySearchTree<string>(BinarySearchTree<string>.Traversal.PreOrder);
             foreach (var node in nodes)
             {
                 tree.Add(node);
@@ -377,7 +370,7 @@ namespace BinarySearchTree.Tests
         {
             var nodes = inputNodes.Split(' ');
             var comparer = Comparer<string>.Create((x, y) => x.Length - y.Length);
-            var tree = new BinarySearchTree<string>(comparer);
+            var tree = new BinarySearchTree<string>(comparer, BinarySearchTree<string>.Traversal.PreOrder);
             foreach (var node in nodes)
             {
                 tree.Add(node);
@@ -398,7 +391,7 @@ namespace BinarySearchTree.Tests
                 nodes.Add(node);
             }
 
-            var tree = new BinarySearchTree<Book>();
+            var tree = new BinarySearchTree<Book>(BinarySearchTree<Book>.Traversal.PreOrder);
             foreach (var node in nodes)
             {
                 tree.Add(new Book(node[0], node[1]));
@@ -421,7 +414,7 @@ namespace BinarySearchTree.Tests
 
             var comparer =
                 Comparer<Book>.Create((x, y) => string.Compare(x.Author, y.Author, StringComparison.Ordinal));
-            var tree = new BinarySearchTree<Book>(comparer);
+            var tree = new BinarySearchTree<Book>(comparer, BinarySearchTree<Book>.Traversal.PreOrder);
             foreach (var node in nodes)
             {
                 tree.Add(new Book(node[0], node[1]));
@@ -437,7 +430,7 @@ namespace BinarySearchTree.Tests
         public void Clear_PointTreeWithComparer_TreeWithAddedNodes(int[] nodesX, int[] nodesY)
         {
             var comparer = Comparer<Point>.Create((x, y) => x.Y - y.Y);
-            var tree = new BinarySearchTree<Point>(comparer);
+            var tree = new BinarySearchTree<Point>(comparer, BinarySearchTree<Point>.Traversal.PreOrder);
             for (int i = 0; i < nodesX.Length; ++i)
             {
                 tree.Add(new Point(nodesX[i], nodesY[i]));
@@ -458,7 +451,7 @@ namespace BinarySearchTree.Tests
         [TestCase(3, new int[] {1, 1, 1, 1, 1, 1}, ExpectedResult = false)]
         public bool Contains_IntegerTreeWithDefaultComparer_IsNodeInTheTree(int nodeToSearch, int[] nodes)
         {
-            var tree = new BinarySearchTree<int>();
+            var tree = new BinarySearchTree<int>(BinarySearchTree<int>.Traversal.PreOrder);
             foreach (var node in nodes)
             {
                 tree.Add(node);
@@ -475,7 +468,7 @@ namespace BinarySearchTree.Tests
         public bool Contains_IntegerTreeWithComparer_IsNodeInTheTree(int nodeToSearch, int[] nodes)
         {
             var comparer = Comparer<int>.Create((x, y) => x.ToString().Length - y.ToString().Length);
-            var tree = new BinarySearchTree<int>(comparer);
+            var tree = new BinarySearchTree<int>(comparer, BinarySearchTree<int>.Traversal.PreOrder);
             foreach (var node in nodes)
             {
                 tree.Add(node);
@@ -491,7 +484,7 @@ namespace BinarySearchTree.Tests
         public bool Contains_StringTreeWithDefaultComparer_IsNodeInTheTree(string nodeToSearch, string inputNodes)
         {
             var nodes = inputNodes.Split(' ');
-            var tree = new BinarySearchTree<string>();
+            var tree = new BinarySearchTree<string>(BinarySearchTree<string>.Traversal.PreOrder);
             foreach (var node in nodes)
             {
                 tree.Add(node);
@@ -509,7 +502,7 @@ namespace BinarySearchTree.Tests
         {
             var nodes = inputNodes.Split(' ');
             var comparer = Comparer<string>.Create((x, y) => x.Length - y.Length);
-            var tree = new BinarySearchTree<string>(comparer);
+            var tree = new BinarySearchTree<string>(comparer, BinarySearchTree<string>.Traversal.PreOrder);
             foreach (var node in nodes)
             {
                 tree.Add(node);
@@ -532,7 +525,7 @@ namespace BinarySearchTree.Tests
                 nodes.Add(node);
             }
 
-            var tree = new BinarySearchTree<Book>();
+            var tree = new BinarySearchTree<Book>(BinarySearchTree<Book>.Traversal.PreOrder);
             foreach (var node in nodes)
             {
                 tree.Add(new Book(node[0], node[1]));
@@ -558,7 +551,7 @@ namespace BinarySearchTree.Tests
 
             var comparer =
                 Comparer<Book>.Create((x, y) => string.Compare(x.Author, y.Author, StringComparison.Ordinal));
-            var tree = new BinarySearchTree<Book>(comparer);
+            var tree = new BinarySearchTree<Book>(comparer, BinarySearchTree<Book>.Traversal.PreOrder);
             foreach (var node in nodes)
             {
                 tree.Add(new Book(node[0], node[1]));
@@ -579,7 +572,7 @@ namespace BinarySearchTree.Tests
         public bool Contains_PointTreeWithComparer_IsNodeInTheTree(string inputToSearch, int[] nodesX, int[] nodesY)
         {
             var comparer = Comparer<Point>.Create((x, y) => x.Y - y.Y);
-            var tree = new BinarySearchTree<Point>(comparer);
+            var tree = new BinarySearchTree<Point>(comparer, BinarySearchTree<Point>.Traversal.PreOrder);
             for (int i = 0; i < nodesX.Length; ++i)
             {
                 tree.Add(new Point(nodesX[i], nodesY[i]));
@@ -601,7 +594,7 @@ namespace BinarySearchTree.Tests
         [TestCase(3, new int[] {1, 1, 1, 1, 1, 1}, ExpectedResult = false)]
         public bool Remove_IntegerTreeWithDefaultComparer_ResultOfRemoving(int nodeToRemove, int[] nodes)
         {
-            var tree = new BinarySearchTree<int>();
+            var tree = new BinarySearchTree<int>(BinarySearchTree<int>.Traversal.PreOrder);
             foreach (var node in nodes)
             {
                 tree.Add(node);
@@ -633,7 +626,7 @@ namespace BinarySearchTree.Tests
         public bool Remove_IntegerTreeWithComparer_ResultOfRemoving(int nodeToRemove, int[] nodes)
         {
             var comparer = Comparer<int>.Create((x, y) => x.ToString().Length - y.ToString().Length);
-            var tree = new BinarySearchTree<int>(comparer);
+            var tree = new BinarySearchTree<int>(comparer, BinarySearchTree<int>.Traversal.PreOrder);
             foreach (var node in nodes)
             {
                 tree.Add(node);
@@ -664,7 +657,7 @@ namespace BinarySearchTree.Tests
         public bool Remove_StringTreeWithDefaultComparer_ResultOfRemoving(string nodeToRemove, string inputNodes)
         {
             var nodes = inputNodes.Split(' ');
-            var tree = new BinarySearchTree<string>();
+            var tree = new BinarySearchTree<string>(BinarySearchTree<string>.Traversal.PreOrder);
             foreach (var node in nodes)
             {
                 tree.Add(node);
@@ -697,7 +690,7 @@ namespace BinarySearchTree.Tests
         {
             var nodes = inputNodes.Split(' ');
             var comparer = Comparer<string>.Create((x, y) => x.Length - y.Length);
-            var tree = new BinarySearchTree<string>(comparer);
+            var tree = new BinarySearchTree<string>(comparer, BinarySearchTree<string>.Traversal.PreOrder);
             foreach (var node in nodes)
             {
                 tree.Add(node);
@@ -735,7 +728,7 @@ namespace BinarySearchTree.Tests
                 nodes.Add(node);
             }
 
-            var tree = new BinarySearchTree<Book>();
+            var tree = new BinarySearchTree<Book>(BinarySearchTree<Book>.Traversal.PreOrder);
             foreach (var node in nodes)
             {
                 tree.Add(new Book(node[0], node[1]));
@@ -776,7 +769,7 @@ namespace BinarySearchTree.Tests
 
             var comparer =
                 Comparer<Book>.Create((x, y) => string.Compare(x.Author, y.Author, StringComparison.Ordinal));
-            var tree = new BinarySearchTree<Book>(comparer);
+            var tree = new BinarySearchTree<Book>(comparer, BinarySearchTree<Book>.Traversal.PreOrder);
             foreach (var node in nodes)
             {
                 tree.Add(new Book(node[0], node[1]));
@@ -812,7 +805,7 @@ namespace BinarySearchTree.Tests
         public bool Remove_PointTreeWithComparer_ResultOfRemoving(string inputToRemove, int[] nodesX, int[] nodesY)
         {
             var comparer = Comparer<Point>.Create((x, y) => x.Y - y.Y);
-            var tree = new BinarySearchTree<Point>(comparer);
+            var tree = new BinarySearchTree<Point>(comparer, BinarySearchTree<Point>.Traversal.PreOrder);
             for (int i = 0; i < nodesX.Length; ++i)
             {
                 tree.Add(new Point(nodesX[i], nodesY[i]));

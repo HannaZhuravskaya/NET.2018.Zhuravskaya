@@ -10,11 +10,13 @@ namespace BinarySearchTree
     /// <typeparam name="T">
     /// Specifies the type of elements in the binary search tree.
     /// </typeparam>
-    public class BinarySearchTree<T> : ICollection<T>
+    public class BinarySearchTree<T> : IEnumerable, IEnumerable<T>
     {
         private readonly IComparer<T> _comparer;
         private int _version;
-        private BinaryTreeNode<T> _root;
+        private BinaryTreeNode _root;
+
+        #region BinarySearchTree.Constructors
 
         /// <summary>
         /// Initializes an empty instance of the BinarySearchTree class.
@@ -22,20 +24,21 @@ namespace BinarySearchTree
         /// <exception cref="ArgumentException">
         /// T type does not have a default comparison rule.
         /// </exception>
-        public BinarySearchTree()
+        public BinarySearchTree() : this(true, null)
         {
-            _root = null;
+        }
 
-            var typeInterfaces = (IList)typeof(T).GetInterfaces();
-            if (!typeInterfaces.Contains(typeof(IComparable)) && !typeInterfaces.Contains(typeof(IComparable<T>)))
-            {
-                throw new ArgumentException(); 
-            }
-
-            _comparer = Comparer<T>.Default;
-
-            _version = 0;
-            Count = 0;
+        /// <summary>
+        /// Initializes an empty instance of the BinarySearchTree class.
+        /// </summary>
+        /// <param name="traversal">
+        /// A constant that determines how to traverse the BinarySearchTree.
+        /// </param>
+        /// <exception cref="ArgumentException">
+        /// T type does not have a default comparison rule.
+        /// </exception>
+        public BinarySearchTree(Traversal traversal) : this(true, null, traversal)
+        {
         }
 
         /// <summary>
@@ -47,12 +50,24 @@ namespace BinarySearchTree
         /// <exception cref="ArgumentNullException">
         /// comparer is null.
         /// </exception>
-        public BinarySearchTree(IComparer<T> comparer)
+        public BinarySearchTree(IComparer<T> comparer) : this(false, comparer)
         {
-            _root = null;
-            _comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
-            _version = 0;
-            Count = 0;
+        }
+
+        /// <summary>
+        /// Initializes an empty instance of the BinarySearchTree class.
+        /// </summary>
+        /// <param name="comparer">
+        /// T type comparator.
+        /// </param>
+        /// <param name="traversal">
+        /// A constant that determines how to traverse the BinarySearchTree.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// comparer is null.
+        /// </exception>
+        public BinarySearchTree(IComparer<T> comparer, Traversal traversal) : this(false, comparer, traversal)
+        {
         }
 
         /// <summary>
@@ -64,20 +79,26 @@ namespace BinarySearchTree
         /// <exception cref="ArgumentException">
         /// T type does not have a default comparison rule.
         /// </exception>
-        public BinarySearchTree(T item)
+        public BinarySearchTree(T item) : this(true, null)
         {
-            _root = new BinaryTreeNode<T>(item);
+            _root = new BinaryTreeNode(item);
+        }
 
-            var typeInterfaces = (IList)typeof(T).GetInterfaces();
-            if (!typeInterfaces.Contains(typeof(IComparable)) && !typeInterfaces.Contains(typeof(IComparable<T>)))
-            {
-                throw new ArgumentException();
-            }
-
-            _comparer = Comparer<T>.Default;
-
-            _version = 0;
-            Count = 1;
+        /// <summary>
+        /// Initializes a non-empty instance of the Binary Search Tree class.
+        /// </summary>
+        /// <param name="item">
+        /// Class instance stores item.
+        /// </param>
+        /// <param name="traversal">
+        /// A constant that determines how to traverse the BinarySearchTree.
+        /// </param>
+        /// <exception cref="ArgumentException">
+        /// T type does not have a default comparison rule.
+        /// </exception>
+        public BinarySearchTree(T item, Traversal traversal) : this(true, null, traversal)
+        {
+            _root = new BinaryTreeNode(item);
         }
 
         /// <summary>
@@ -92,12 +113,29 @@ namespace BinarySearchTree
         /// <exception cref="ArgumentNullException">
         /// comparer is null.
         /// </exception>
-        public BinarySearchTree(T item, IComparer<T> comparer)
+        public BinarySearchTree(T item, IComparer<T> comparer) : this(false, comparer)
         {
-            _root = new BinaryTreeNode<T>(item);
-            _comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
-            _version = 0;
-            Count = 1;
+            _root = new BinaryTreeNode(item);
+        }
+
+        /// <summary>
+        /// Initializes a non-empty instance of the Binary Search Tree class.
+        /// </summary>
+        /// <param name="item">
+        /// Class instance stores item.
+        /// </param>
+        /// <param name="comparer">
+        /// T type comparator.
+        /// </param>
+        /// <param name="traversal">
+        /// A constant that determines how to traverse the BinarySearchTree.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// comparer is null.
+        /// </exception>
+        public BinarySearchTree(T item, IComparer<T> comparer, Traversal traversal) : this(false, comparer, traversal)
+        {
+            _root = new BinaryTreeNode(item);
         }
 
         /// <summary>
@@ -112,30 +150,28 @@ namespace BinarySearchTree
         /// <exception cref="ArgumentException">
         /// T type does not have a default comparison rule.
         /// </exception>
-        public BinarySearchTree(IEnumerable<T> collection)
+        public BinarySearchTree(IEnumerable<T> collection) : this(collection, true, null)
         {
-            if (collection is null)
-            {
-                throw new ArgumentNullException(nameof(collection));
-            }
+        }
 
-            _root = null;
-
-            var typeInterfaces = (IList)typeof(T).GetInterfaces();
-            if (!typeInterfaces.Contains(typeof(IComparable)) && !typeInterfaces.Contains(typeof(IComparable<T>)))
-            {
-                throw new ArgumentException();
-            }
-
-            _comparer = Comparer<T>.Default;
-
-            _version = 0;
-            Count = 0;
-
-            foreach (var element in collection)
-            {
-                this.Add(element);
-            }
+        /// <summary>
+        /// Initializes a new instance of the BinarySearchTree class that contains elements copied from the specified collection. 
+        /// </summary>
+        /// <param name="collection">
+        /// The collection whose elements are copied to the new BinarySearchTree.
+        /// </param>
+        /// <param name="traversal">
+        /// A constant that determines how to traverse the BinarySearchTree.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// collection is null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// T type does not have a default comparison rule.
+        /// </exception>
+        public BinarySearchTree(IEnumerable<T> collection, Traversal traversal) : 
+            this(collection, true, null, traversal)
+        {
         }
 
         /// <summary>
@@ -150,23 +186,85 @@ namespace BinarySearchTree
         /// <exception cref="ArgumentNullException">
         /// collection  is null or comparer is null.
         /// </exception>
-        public BinarySearchTree(IEnumerable<T> collection, IComparer<T> comparer)
+        public BinarySearchTree(IEnumerable<T> collection, IComparer<T> comparer) : this(collection, false, comparer)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the BinarySearchTree class that contains elements copied from the specified collection. 
+        /// </summary>
+        /// <param name="collection">
+        /// The collection whose elements are copied to the new BinarySearchTree.
+        /// </param>
+        /// <param name="comparer">
+        /// T type comparator.
+        /// </param>
+        /// <param name="traversal">
+        /// A constant that determines how to traverse the BinarySearchTree.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// collection  is null or comparer is null.
+        /// </exception>
+        public BinarySearchTree(IEnumerable<T> collection, IComparer<T> comparer, Traversal traversal) : this(
+            collection, false, comparer, traversal)
+        {
+        }
+
+        private BinarySearchTree(bool isDefaultComparer, IComparer<T> comparer, Traversal traversal = Traversal.Default)
+        {
+            _version = 0;
+            Count = 0;
+
+            if (isDefaultComparer)
+            {
+                var typeInterfaces = (IList)typeof(T).GetInterfaces();
+                if (!typeInterfaces.Contains(typeof(IComparable)) && !typeInterfaces.Contains(typeof(IComparable<T>)))
+                {
+                    throw new ArgumentException();
+                }
+
+                _comparer = Comparer<T>.Default;
+            }
+            else
+            {
+                _comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
+            }
+
+            DefaultTraversal = traversal;
+        }
+
+        private BinarySearchTree(
+            IEnumerable<T> collection, 
+            bool isDefaultComparer, 
+            IComparer<T> comparer,
+            Traversal traversal = Traversal.Default) : this(isDefaultComparer, comparer, traversal)
         {
             if (collection is null)
             {
                 throw new ArgumentNullException(nameof(collection));
             }
 
-            _root = null;
-            _comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
-            _version = 0;
-            Count = 0;
-
             foreach (var element in collection)
             {
                 this.Add(element);
             }
         }
+
+        #endregion
+
+        #region BinarySearchTree.Traversal
+
+        public enum Traversal
+        {
+            Default = 1,
+            InOrder = 1,
+            PreOrder = 2,
+            PostOrder = 3
+        }
+
+        #endregion
+
+        #region BinarySearchTree.Properties
 
         /// <summary>
         /// Gets the number of elements contained in the BinarySearchTree.
@@ -176,49 +274,25 @@ namespace BinarySearchTree
         /// </returns>
         public int Count { get; private set; }
 
-        bool ICollection<T>.IsReadOnly => false;
-
         /// <summary>
-        /// In-order tree traversal.
+        /// Determines whether BinarySearchTree is empty.
         /// </summary>
         /// <returns>
-        /// A IEnumerable'1 of BinarySearchTree.
+        /// true if BinarySearchTree is empty; otherwise, false.
         /// </returns>
-        /// <exception cref="InvalidOperationException">
-        /// The collection was modified after the enumerator was created.
-        /// </exception>
-        public IEnumerable<T> InorderTraversal()
-        {
-            return InorderTraversal(_root);
-        }
+        public bool IsEmpty => _root == null;
 
         /// <summary>
-        /// Pre-order tree traversal.
+        /// A constant that determines how to traverse the BinarySearchTree.
         /// </summary>
         /// <returns>
-        /// A IEnumerable'1 of BinarySearchTree.
+        /// A constant that determines how to traverse the BinarySearchTree.
         /// </returns>
-        /// <exception cref="InvalidOperationException">
-        /// The collection was modified after the enumerator was created.
-        /// </exception>
-        public IEnumerable<T> PreorderTraversal()
-        {
-            return PreorderTraversal(_root);
-        }
+        public Traversal DefaultTraversal { get; set; }
 
-        /// <summary>
-        /// Post-order tree traversal.
-        /// </summary>
-        /// <returns>
-        /// A IEnumerable'1 of BinarySearchTree.
-        /// </returns>
-        /// <exception cref="InvalidOperationException">
-        /// The collection was modified after the enumerator was created.
-        /// </exception>
-        public IEnumerable<T> PostorderTraversal()
-        {
-            return PostorderTraversal(_root);
-        }
+        #endregion
+
+        #region BinarySearchTree.PublicMethods
 
         /// <summary>
         /// Adds an object to BinarySearchTree if it is unique.
@@ -230,13 +304,13 @@ namespace BinarySearchTree
         {
             if (_root == null)
             {
-                _root = new BinaryTreeNode<T>(item);
+                _root = new BinaryTreeNode(item);
                 _version++;
                 Count++;
             }
             else
             {
-                BinaryTreeNode<T> parent = null, current = _root;
+                BinaryTreeNode parent = null, current = _root;
                 int comparerResult = -1;
                 while (current != null)
                 {
@@ -260,13 +334,13 @@ namespace BinarySearchTree
 
                 if (comparerResult < 0)
                 {
-                    parent.Left = new BinaryTreeNode<T>(item, parent);
+                    parent.Left = new BinaryTreeNode(item, parent);
                     _version++;
                     Count++;
                 }
                 else if (comparerResult > 0)
                 {
-                    parent.Right = new BinaryTreeNode<T>(item, parent);
+                    parent.Right = new BinaryTreeNode(item, parent);
                     _version++;
                     Count++;
                 }
@@ -305,59 +379,6 @@ namespace BinarySearchTree
         }
 
         /// <summary>
-        /// Copies the BinarySearchTree elements to an existing one-dimensional System.Array, starting at the specified array index.
-        /// </summary>
-        /// <param name="array">
-        /// The one-dimensional System.Array that is the destination of the elements copied from BinarySearchTree. The System.Array must have zero-based indexing.
-        /// </param>
-        /// <param name="arrayIndex">
-        /// The zero-based index in array at which copying begins.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// array is null.
-        /// </exception>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// arrayIndex is less than zero.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// The number of elements in the source BinarySearchTree is greater than the available space from arrayIndex to the end of the destination array.
-        /// </exception>
-        public void CopyTo(T[] array, int arrayIndex)
-        {
-            if (array is null)
-            {
-                throw new ArgumentNullException(nameof(array));
-            }
-
-            if (arrayIndex < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(arrayIndex));
-            }
-
-            if (arrayIndex + Count > array.Length)
-            {
-                throw new ArgumentException(nameof(arrayIndex));
-            }
-
-            foreach (var node in this)
-            {
-                array[arrayIndex] = node;
-                arrayIndex++;
-            }
-        }
-
-        /// <summary>
-        /// Returns an enumerator that iterates through the BinarySearchTree.
-        /// </summary>
-        /// <returns>
-        /// A IEnumerator'1 for the BinarySearchTree.
-        /// </returns>
-        public IEnumerator<T> GetEnumerator()
-        {
-            return PreorderTraversal().GetEnumerator();
-        }
-        
-        /// <summary>
         /// Removes the node with the specified element from the BinarySearchTree.
         /// </summary>
         /// <param name="item">
@@ -390,14 +411,85 @@ namespace BinarySearchTree
             return true;
         }
 
+        /// <summary>
+        /// In-order tree traversal.
+        /// </summary>
+        /// <returns>
+        /// A IEnumerable'1 of BinarySearchTree.
+        /// </returns>
+        /// <exception cref="InvalidOperationException">
+        /// The collection was modified after the enumerator was created.
+        /// </exception>
+        public IEnumerable<T> InOrderTraversal()
+        {
+            return InOrderTraversal(_root);
+        }
+
+        /// <summary>
+        /// Pre-order tree traversal.
+        /// </summary>
+        /// <returns>
+        /// A IEnumerable'1 of BinarySearchTree.
+        /// </returns>
+        /// <exception cref="InvalidOperationException">
+        /// The collection was modified after the enumerator was created.
+        /// </exception>
+        public IEnumerable<T> PreOrderTraversal()
+        {
+            return PreOrderTraversal(_root);
+        }
+
+        /// <summary>
+        /// Post-order tree traversal.
+        /// </summary>
+        /// <returns>
+        /// A IEnumerable'1 of BinarySearchTree.
+        /// </returns>
+        /// <exception cref="InvalidOperationException">
+        /// The collection was modified after the enumerator was created.
+        /// </exception>
+        public IEnumerable<T> PostOrderTraversal()
+        {
+            return PostOrderTraversal(_root);
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through the BinarySearchTree.
+        /// </summary>
+        /// <returns>
+        /// A IEnumerator'1 for the BinarySearchTree.
+        /// </returns>
+        public IEnumerator<T> GetEnumerator()
+        {
+            switch (DefaultTraversal)
+            {
+                case Traversal.InOrder:
+                    return InOrderTraversal().GetEnumerator();
+                case Traversal.PostOrder:
+                    return PostOrderTraversal().GetEnumerator();
+                case Traversal.PreOrder:
+                    return PreOrderTraversal().GetEnumerator();
+                default:
+                    return InOrderTraversal().GetEnumerator();
+            }
+        }
+
+        #endregion
+
+        #region BinarySearchTree.ExplicitInterfacesImplementations
+
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
 
-        private IEnumerable<T> InorderTraversal(BinaryTreeNode<T> node)
+        #endregion
+
+        #region BinarySearchTree.PrivateMethods
+
+        private IEnumerable<T> InOrderTraversal(BinaryTreeNode node)
         {
-            Stack<BinaryTreeNode<T>> stack = new Stack<BinaryTreeNode<T>>();
+            Stack<BinaryTreeNode> stack = new Stack<BinaryTreeNode>();
             var current = node;
             var currentVersion = this._version;
 
@@ -422,9 +514,9 @@ namespace BinarySearchTree
             }
         }
 
-        private IEnumerable<T> PreorderTraversal(BinaryTreeNode<T> node)
+        private IEnumerable<T> PreOrderTraversal(BinaryTreeNode node)
         {
-            Stack<BinaryTreeNode<T>> stack = new Stack<BinaryTreeNode<T>>();
+            Stack<BinaryTreeNode> stack = new Stack<BinaryTreeNode>();
             var current = node;
             var currentVersion = this._version;
 
@@ -448,9 +540,9 @@ namespace BinarySearchTree
             }
         }
 
-        private IEnumerable<T> PostorderTraversal(BinaryTreeNode<T> node)
+        private IEnumerable<T> PostOrderTraversal(BinaryTreeNode node)
         {
-            var dict = new Dictionary<BinaryTreeNode<T>, BinaryTreeNode<T>> { [node] = null };
+            var dict = new Dictionary<BinaryTreeNode, BinaryTreeNode> { [node] = null };
             var currentVersion = _version;
 
             while (node != null)
@@ -478,7 +570,7 @@ namespace BinarySearchTree
             }
         }
 
-        private BinaryTreeNode<T> Find(T item)
+        private BinaryTreeNode Find(T item)
         {
             if (_root == null)
             {
@@ -510,7 +602,10 @@ namespace BinarySearchTree
             return current;
         }
 
-        private void RemoveNodeWithOneOrZeroSubtree(BinaryTreeNode<T> parent, BinaryTreeNode<T> nodeToPaste, T itemToRemove)
+        private void RemoveNodeWithOneOrZeroSubtree(
+            BinaryTreeNode parent, 
+            BinaryTreeNode nodeToPaste,
+            T itemToRemove)
         {
             if (parent == null)
             {
@@ -542,7 +637,7 @@ namespace BinarySearchTree
             }
         }
 
-        private T FindNodeToReplace(BinaryTreeNode<T> current)
+        private T FindNodeToReplace(BinaryTreeNode current)
         {
             var parent = current.Parent;
             while (current.Left != null)
@@ -555,5 +650,78 @@ namespace BinarySearchTree
 
             return result;
         }
+
+        #endregion
+
+        #region BinarySearchTree.BinaryTreeNode
+
+        /// <summary>
+        /// Class contains node of binary search tree.
+        /// </summary>
+        private class BinaryTreeNode
+        {
+            #region BinaryTreeNode.Constructors
+
+            /// <summary>
+            /// Create an instance of BinaryTreeNode where parent, left and right nodes are null.
+            /// </summary>
+            /// <param name="info">
+            /// Node information.
+            /// </param>
+            public BinaryTreeNode(T info)
+            {
+                Info = info;
+            }
+
+            /// <summary>
+            /// Create an instance of BinaryTreeNode where left and right nodes are null.
+            /// </summary>
+            /// <param name="info"></param>
+            /// <param name="parent">
+            /// Parent node.
+            /// </param>
+            public BinaryTreeNode(T info, BinaryTreeNode parent) : this(info)
+            {
+                Parent = parent;
+            }
+
+            #endregion
+
+            #region BinaryTreeNode.Properties
+
+            /// <summary>
+            /// Parent node.
+            /// </summary>
+            public BinaryTreeNode Parent { get; set; }
+
+            /// <summary>
+            /// Left node.
+            /// </summary>
+            public BinaryTreeNode Left { get; set; }
+
+            /// <summary>
+            /// Right node.
+            /// </summary>
+            public BinaryTreeNode Right { get; set; }
+
+            /// <summary>
+            /// Node information.
+            /// </summary>
+            public T Info { get; set; }
+
+            #endregion
+
+            #region BinaryTreeNode.PublicMethods
+
+            public override string ToString()
+            {
+                return "node: " + Info + ", left: " + (Left != null ? Left.Info.ToString() : "null") + ", right: " +
+                       (Right != null ? Right.Info.ToString() : "null");
+            }
+
+            #endregion
+        }
+
+        #endregion
     }
 }
