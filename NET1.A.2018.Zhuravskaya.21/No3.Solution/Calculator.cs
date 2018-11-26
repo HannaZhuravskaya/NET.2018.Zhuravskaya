@@ -3,13 +3,54 @@ using System.Collections.Generic;
 
 namespace No3.Solution
 {
-    /*
-     * Возможным вариантом также является передавать в качестве параметра вместо делегата объект интерфейса. Затем нужный метод этого объекта передавать
-     * в качестве параметра в метод, принимающий делегат, таким образом логика будет находится в одном методе, а возможности обращения к нему расширятся.
-     */
+    /// <summary>
+    /// Calculator class.
+    /// </summary>
     public class Calculator
     {
-         public double CalculateAverage(IEnumerable<double> values, Func<IEnumerable<double>, double> averagingMethod)
+        /// <summary>
+        /// Calculate average value of IEnumerable'1 of double elements.
+        /// </summary>
+        /// <param name="values">
+        /// IEnumerable'1 od double elements.
+        /// </param>
+        /// <param name="averagingMethod">
+        /// IAveragingMethod object. 
+        /// </param>
+        /// <returns>
+        /// average value
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// averagingMethod must not be null.
+        /// values must not be null.
+        /// </exception>
+         public double CalculateAverage(IEnumerable<double> values, IAveragingMethod averagingMethod)
+        {
+            if (averagingMethod == null)
+            {
+                throw new ArgumentNullException(nameof(averagingMethod) + "must not be null");
+            }
+
+            return CalculateAverage(values, averagingMethod.CalculateAverage);
+        }
+
+        /// <summary>
+        /// Calculate average value of IEnumerable'1 of double elements.
+        /// </summary>
+        /// <param name="values">
+        /// IEnumerable'1 od double elements.
+        /// </param>
+        /// <param name="averagingMethod">
+        /// Func delegate.
+        /// </param>
+        /// <returns>
+        /// average value
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// averagingMethod must not be null.
+        /// values must not be null.
+        /// </exception>
+        public double CalculateAverage(IEnumerable<double> values, Func<IEnumerable<double>, double> averagingMethod)
         {
             if (values == null)
             {
