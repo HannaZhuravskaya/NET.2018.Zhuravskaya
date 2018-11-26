@@ -1,5 +1,8 @@
 ﻿namespace No5.Solution.DocumentPartConverterImplementations
 {
+    /// <summary>
+    /// Convert document part to Html.
+    /// </summary>
     public class DocumentPartToHtml : DocumentPartConverter
     {
         protected override string Visit(PlainText text) => text.Text;

@@ -3,14 +3,22 @@ using System.Collections.Generic;
 
 namespace No5.Solution
 {
-    /*
-     * Так как количество частей документа не изменяется, а формат, в который они могут переводится - да, то мы реализуем динамический паттерн визитора.
-     * Сами классы в дальнейшем изменяться не будут, а вот добавить новый формат мы сможем легко, унаследовавшись от DocumentPartConverter.
-     */
+    /// <summary>
+    /// Document class/
+    /// </summary>
     public class Document
     {
-        private readonly List<DocumentPart> parts;
+        private readonly List<DocumentPart> _parts;
 
+        /// <summary>
+        /// Initializes a new instance of Document.
+        /// </summary>
+        /// <param name="parts">
+        /// parts of document.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// parts must not be null.
+        /// </exception>
         public Document(IEnumerable<DocumentPart> parts)
         {
             if (parts == null)
@@ -18,14 +26,23 @@ namespace No5.Solution
                 throw new ArgumentNullException(nameof(parts));
             }
 
-            this.parts = new List<DocumentPart>(parts);
+            this._parts = new List<DocumentPart>(parts);
         }
 
+        /// <summary>
+        /// Convert document to string format.
+        /// </summary>
+        /// <param name="converter">
+        /// string format
+        /// </param>
+        /// <returns>
+        /// converted document
+        /// </returns>
         public string ConvertTo(DocumentPartConverter converter)
         {
             string output = string.Empty;
 
-            foreach (DocumentPart part in this.parts)
+            foreach (DocumentPart part in this._parts)
             {
                 output += $"{converter.DynamicVisit(part)}\n";
             }
