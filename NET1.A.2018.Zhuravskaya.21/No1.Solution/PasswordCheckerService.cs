@@ -42,7 +42,7 @@ namespace No1.Solution
         /// is passport valid and some info.
         /// </returns>
         /// <exception cref="ArgumentException">
-        ///password is null arg.
+        /// password is null arg.
         /// </exception>
         public (bool, string) VerifyPassword(string password)
         {

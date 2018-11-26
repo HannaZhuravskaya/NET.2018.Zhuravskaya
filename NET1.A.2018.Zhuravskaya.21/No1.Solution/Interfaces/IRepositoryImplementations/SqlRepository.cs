@@ -19,7 +19,7 @@
         }
 
         /// <summary>
-        /// Get last added string from repositry.
+        /// Get last added string from repository.
         /// </summary>
         /// <param name="lastString">
         /// last added string
