@@ -7,14 +7,15 @@ namespace No5.Solution.Console
     {
         public static void Main(string[] args)
         {
-            var doc1 = new BoldText { Text = "plain text" };
-            var doc2 = new HyperLink { Text = "hyper link" };
-            var docs = new List<DocumentPart> { doc1, doc2 };
+            var doc1 = new BoldText {Text = "plain text"};
+            var doc2 = new HyperLink {Text = "hyper link", Url = "https://translate.google.com/hl=ru"};
+            var doc3 = new PlainText {Text = "plain text"};
 
-            var document = new Document(docs);
-            var converted = document.ConvertTo(new DocumentPartToHtml());
-            System.Console.WriteLine(converted);
+            var document = new Document(new DocumentPart[] {doc1, doc2, doc3});
+
+            System.Console.WriteLine(document.ConvertTo(new DocumentPartToHtml()));
             System.Console.WriteLine(document.ConvertTo(new DocumentPartToLaTeX()));
+            System.Console.WriteLine(document.ConvertTo(new DocumentPartToPlainText()));
         }
     }
 }
