@@ -1,0 +1,5 @@
+Используем паттерн Шаблонный метод.
+1. Добавим в решение абстрактный класс [RandomFileGenerator](https://github.com/HannaZhuravskaya/NET.2018.Zhuravskaya/blob/master/NET1.A.2018.Zhuravskaya.21/No4.Solution/RandomFileGenerator.cs).
+2. Добавим один абстрактный метод GenerateFileContent, отвечающий за генерацию контента определенного вида файла.
+3. Методы GenerateFiles и WriteBytesToFile внесем в абстрактный класс, так как их реализация не зависит от вида генерируемого файла.
+4. Создадим два класса [RandomBytesFileGenerator](https://github.com/HannaZhuravskaya/NET.2018.Zhuravskaya/blob/master/NET1.A.2018.Zhuravskaya.21/No4.Solution/RandomFileGeneratorImplementations/RandomBytesFileGenerator.cs) и [RandomCharsFileGenerator](https://github.com/HannaZhuravskaya/NET.2018.Zhuravskaya/blob/master/NET1.A.2018.Zhuravskaya.21/No4.Solution/RandomFileGeneratorImplementations/RandomCharsFileGenerator.cs), имплементирующие абстрактный класс [RandomFileGenerator](https://github.com/HannaZhuravskaya/NET.2018.Zhuravskaya/blob/master/NET1.A.2018.Zhuravskaya.21/No4.Solution/RandomFileGenerator.cs).
