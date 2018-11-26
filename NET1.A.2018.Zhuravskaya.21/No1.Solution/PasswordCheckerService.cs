@@ -4,10 +4,6 @@ using No1.Solution.Interfaces;
 
 namespace No1.Solution
 {
-    /*
-     * Воспользуемся паттерном Composite для возможности добавления различных валидаций, а также будем использовать репозиторию, не привязанную к конкретному
-     * способу хранения информации.
-     */
     public class PasswordCheckerService
     {
         private readonly IRepository _repository;

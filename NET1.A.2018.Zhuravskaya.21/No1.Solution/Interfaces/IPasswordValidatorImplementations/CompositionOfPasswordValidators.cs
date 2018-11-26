@@ -6,9 +6,13 @@ namespace No1.Solution.Interfaces.IPasswordValidatorImplementations
     {
         private readonly IEnumerable<IPasswordValidator> _validators;
 
-        public CompositionOfPasswordValidators(IEnumerable<IPasswordValidator> validators)
+        public CompositionOfPasswordValidators()
         {
-            _validators = validators;
+            _validators = new List<IPasswordValidator>
+            {
+                new ContainsCharPasswordValidator(), new ContainsDigitPasswordValidator(),
+                new MaxLengthPasswordValidator(15), new MinLengthPasswordValidator(8)
+            };
         }
 
         public (bool, string) IsValid(string password)
@@ -21,7 +25,7 @@ namespace No1.Solution.Interfaces.IPasswordValidatorImplementations
                     return validatorResult;
                 }
             }
-            
+
             return (true, "Password is Ok. User was created");
         }
     }
