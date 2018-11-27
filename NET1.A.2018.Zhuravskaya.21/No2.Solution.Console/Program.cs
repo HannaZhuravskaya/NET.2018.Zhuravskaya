@@ -6,11 +6,11 @@
         {
             var stock = new Stock();
 
-            var bank = new Bank("Bank", stock);
-            var broker = new Broker("Broker", stock);
+            var bank = new Bank("BPS");
+            bank.Register(stock);
+            var broker = new Broker("Mark");
+            broker.StartTrade(stock);
 
-            stock.Register(bank);
-            stock.Register(broker);
             stock.Market();
 
             System.Console.ReadLine();
